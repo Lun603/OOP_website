@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OOP 學習網站 - 程式碼庫、Git寶典與互動筆記</title>
+    <title>OOP 學習網站 - 雲端同步與完整教學版</title>
     <!-- 引入 Prism.js 程式碼高亮主題 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
     <style>
@@ -90,7 +90,18 @@
             letter-spacing: -0.5px;
         }
 
-        header p { color: var(--text-muted); font-size: 1.05rem; }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: #dcfce7;
+            color: #166534;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
 
         section {
             background: var(--card-bg);
@@ -98,7 +109,7 @@
             border-radius: 14px;
             border: 1px solid var(--border-color);
             margin-bottom: 32px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
         }
 
         section h2 { font-size: 1.45rem; margin-bottom: 18px; color: var(--primary-color); }
@@ -153,9 +164,7 @@
             border-radius: 6px;
             cursor: pointer;
             font-size: 0.8rem;
-            transition: background 0.2s;
         }
-        .copy-btn:hover { background: #475569; }
 
         .delete-code-btn {
             background: var(--accent-red);
@@ -166,9 +175,7 @@
             cursor: pointer;
             font-size: 0.8rem;
             margin-left: 8px;
-            transition: background 0.2s;
         }
-        .delete-code-btn:hover { background: #dc2626; }
 
         pre[class*="language-"] {
             margin: 0 !important;
@@ -187,9 +194,8 @@
             margin-top: 16px;
             margin-bottom: 16px;
             font-size: 0.95rem;
-            border-top: 1px solid var(--border-color);
-            border-right: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
+            border: 1px solid var(--border-color);
+            border-left-width: 4px;
         }
         .detail-box.git-box { border-left-color: var(--accent-green); background-color: #f0fdf4; }
         .detail-box h4 { margin-bottom: 8px; color: var(--text-color); font-size: 1.05rem; }
@@ -224,7 +230,6 @@
         th, td { border: 1px solid var(--border-color); padding: 12px 16px; text-align: left; font-size: 0.93rem; }
         th { background-color: #f1f5f9; font-weight: 600; }
 
-        /* 搜尋框 */
         .search-box {
             width: 100%;
             padding: 12px 16px;
@@ -235,14 +240,13 @@
             background: #f8fafc;
         }
 
-        /* 互動式 Q&A 區塊 */
+        /* QA 區塊 */
         .qa-card {
             border: 1px solid var(--border-color);
             border-radius: 10px;
             margin-bottom: 16px;
             background: #fff;
             overflow: hidden;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
         }
         .qa-header {
             background-color: #f8fafc;
@@ -253,40 +257,24 @@
             justify-content: space-between;
             align-items: center;
         }
-        .qa-header:hover { background-color: #f1f5f9; }
         .qa-body {
             padding: 20px;
             display: none;
             border-top: 1px solid var(--border-color);
             font-size: 0.95rem;
-            line-height: 1.7;
         }
         .qa-card.active .qa-body { display: block; }
 
-        .replies-list {
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px dashed var(--border-color);
-        }
         .reply-item {
             background: #f8fafc;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 12px 16px;
             margin-bottom: 10px;
-            font-size: 0.92rem;
         }
         .reply-meta { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px; }
 
-        .reply-form { display: flex; gap: 8px; margin-top: 12px; }
-        .reply-form input {
-            padding: 9px 14px;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 0.9rem;
-        }
-
-        /* 備忘錄 UI */
+        /* 備忘錄卡片 UI */
         .note-filter-bar {
             display: flex;
             gap: 8px;
@@ -322,11 +310,6 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .note-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.06);
         }
         .note-tag {
             display: inline-block;
@@ -346,16 +329,6 @@
         .note-card-date { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px; }
         .note-card-body { font-size: 0.92rem; white-space: pre-wrap; color: #334155; line-height: 1.6; flex-grow: 1; }
 
-        .note-card-footer {
-            margin-top: 14px;
-            padding-top: 10px;
-            border-top: 1px solid #f1f5f9;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* 表單與按鈕 */
         .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
         .form-group label { font-size: 0.9rem; font-weight: 600; color: var(--text-color); }
         .form-group input, .form-group textarea, .form-group select {
@@ -377,25 +350,22 @@
             cursor: pointer;
             font-weight: 600;
             font-size: 0.9rem;
-            transition: background 0.2s;
         }
-        .btn:hover { background-color: var(--primary-hover); }
         .btn-green { background-color: var(--accent-green); }
-        .btn-green:hover { background-color: #059669; }
         .btn-secondary { background-color: #64748b; }
-        .btn-secondary:hover { background-color: #475569; }
 
         .delete-btn {
-            color: #ef4444;
+            color: var(--accent-red);
             background: none;
             border: none;
             cursor: pointer;
             font-size: 0.85rem;
-            font-weight: 500;
+            margin-top: 10px;
+            font-weight: 600;
         }
         .delete-btn:hover { text-decoration: underline; }
 
-        /* Modal 彈出視窗 */
+        /* Modal 彈窗 */
         .modal {
             display: none;
             position: fixed;
@@ -430,18 +400,19 @@
         <ul>
             <li><a href="#overview">1. 專案系統架構</a></li>
             <li><a href="#git-section">2. Git & CMD 實用指令寶典</a></li>
-            <li><a href="#code-section">3. 程式碼檔案庫 (可新增刪除)</a></li>
+            <li><a href="#code-section">3. 程式碼檔案庫 (可擴充/刪除)</a></li>
             <li><a href="#deep-details">4. 高階 OOP 與記憶體解析</a></li>
             <li><a href="#oop-concepts">5. C vs C++ OOP 對照表</a></li>
             <li><a href="#interactive-qa">6. 互動式 QA 知識庫</a></li>
-            <li><a href="#user-notes">7. 個人優化版備忘錄</a></li>
+            <li><a href="#user-notes">7. 雲端即時同步備忘錄</a></li>
         </ul>
     </nav>
 
     <main class="main-content">
         <header>
             <h1>OOP 學習網站</h1>
-            <p>融合 C++ 物件導向架構、Git 版本控制語法、記憶體原理與高擴充性學習筆記庫。</p>
+            <div class="status-badge">🟢 Firebase 雲端資料庫已連線 (即時同步 + 密碼防護)</div>
+            <p>融合 C++ 物件導向架構、Git 版本控制語法、記憶體原理與好友雲端即時同步筆記庫。</p>
         </header>
 
         <!-- Section 1: Overview -->
@@ -455,78 +426,49 @@
             </ul>
         </section>
 
-        <!-- Section 2: Git & CMD Section -->
+        <!-- Section 2: Git Section -->
         <section id="git-section">
             <h2>🌿 2. Git (MINGW64) & Terminal 實用指令寶典</h2>
-            
             <div class="detail-box git-box">
                 <h4>🎓 課堂重點：Git 控制版本的三大核心區域觀念</h4>
-                <p>Git 是如何管理程式碼演進歷史的？底層分為三大運作區域：</p>
-                <ol style="margin-left: 20px; margin-top: 8px;">
-                    <li><strong>工作區 (Working Directory)</strong>：你當前編輯檔案的實際資料夾目錄。</li>
-                    <li><strong>暫存區 (Staging Area / Index)</strong>：執行 <code>git add</code> 後，準備好要上傳與記錄的檔案清單。</li>
-                    <li><strong>儲存區 (Repository)</strong>：執行 <code>git commit</code> 後，正式打包儲存並標記目前版本的節點。</li>
-                </ol>
-                <p style="margin-top: 8px; font-weight: 600; color: #047857;">💡 工作流程：工作區修改程式 &rarr; <code>git add</code> 入暫存區 &rarr; <code>git commit -m</code> 歸檔標記版本！</p>
+                <p>1. <b>工作區 (Working Directory)</b>：實際編輯檔案處。 2. <b>暫存區 (Staging Area)</b>：<code>git add</code> 準備檔案處。 3. <b>儲存區 (Repository)</b>：<code>git commit</code> 正式打包紀錄處。</p>
             </div>
-
             <h3>建構與版本提交指令：</h3>
             <div class="cmd-grid">
                 <div class="cmd-card">
                     <span class="cmd-code">git init</span>
-                    <p><strong>建立工作區域</strong>：在當前目錄初始化 Git 儲存庫，產生隱藏的 <code>.git</code> 資料夾來紀錄歷史。</p>
+                    <p>在當前目錄建立隱藏的 <code>.git</code> 版本資料夾。</p>
                 </div>
                 <div class="cmd-card">
                     <span class="cmd-code">git status</span>
-                    <p><strong>檢視當前狀態</strong>：查看有哪些檔案被修改。🔴 <b>紅色</b>代表未進暫存區，🟢 <b>綠色</b>代表已進入暫存區。</p>
+                    <p>檢視狀態：🔴 紅色為未暫存修改，🟢 綠色為已進入暫存區。</p>
                 </div>
                 <div class="cmd-card">
-                    <span class="cmd-code">git add &lt;檔案&gt; / git add .</span>
-                    <p><strong>丟進暫存區</strong>：將檔案從工作區丟進暫存區。<code>git add .</code> 可一次加入全目錄修改。</p>
+                    <span class="cmd-code">git add .</span>
+                    <p>將當前目錄下所有修改過的檔案送進暫存區。</p>
                 </div>
                 <div class="cmd-card">
-                    <span class="cmd-code">git commit -m "版本說明"</span>
-                    <p><strong>提交正式版本</strong>：將暫存區的檔案正式打包提交至儲存區，並附上本次修改的說明標記。</p>
+                    <span class="cmd-code">git commit -m "備註"</span>
+                    <p>將暫存區內容正式提交成版本，並附上說明訊息。</p>
                 </div>
             </div>
-
-            <h3 style="margin-top: 25px;">歷史、重置與分支管理指令 (進階)：</h3>
+            <h3 style="margin-top: 25px;">歷史、重置與分支管理指令：</h3>
             <div class="cmd-grid">
                 <div class="cmd-card">
-                    <span class="cmd-code">git log / git log --oneline</span>
-                    <p><strong>查看 Git 日誌</strong>：顯示過往所有 commit 的歷史紀錄、作者、時間點以及 commit ID 前 7 碼。</p>
-                </div>
-                <div class="cmd-card">
-                    <span class="cmd-code">git reset --soft &lt;commit ID&gt;</span>
-                    <p><strong>重置 commit 紀錄 (溫和)</strong>：回到指定版本點。<code>--soft</code> 模式會保留你目前工作區與暫存區的程式碼。</p>
+                    <span class="cmd-code">git log --oneline</span>
+                    <p>精簡顯示過往所有的 commit 歷史紀錄與 ID 前 7 碼。</p>
                 </div>
                 <div class="cmd-card">
                     <span class="cmd-code">git diff</span>
-                    <p><strong>比較檔案差異</strong>：比較「工作區」與「暫存區」之間程式碼詳細修改的行數差異。</p>
+                    <p>比較「工作區」與「暫存區」之間程式碼的詳細修改差異。</p>
                 </div>
                 <div class="cmd-card">
-                    <span class="cmd-code">git branch / git switch -c &lt;分支名&gt;</span>
-                    <p><strong>分支管理</strong>：<code>git branch</code> 查看所有分支；<code>git switch -c new-feature</code> 建立並切換至新開發分支。</p>
-                </div>
-            </div>
-
-            <h3 style="margin-top: 25px;">CMD / MINGW64 基礎終端機指令：</h3>
-            <div class="cmd-grid">
-                <div class="cmd-card">
-                    <span class="cmd-code">cd &lt;位址&gt; / cd ..</span>
-                    <p><strong>切換目錄</strong>：<code>cd /c/</code> 移動至特定路徑；<code>cd ..</code> 離開並回到上一層資料夾。</p>
+                    <span class="cmd-code">git switch -c &lt;分支名&gt;</span>
+                    <p>建立並切換至新開發分支，實現獨立功能開發。</p>
                 </div>
                 <div class="cmd-card">
-                    <span class="cmd-code">dir / ls -a</span>
-                    <p><strong>查看目錄內容</strong>：<code>dir</code> (Windows) 或 <code>ls -a</code> (Bash) 列出當前目錄所有檔案（含隱藏檔）。</p>
-                </div>
-                <div class="cmd-card">
-                    <span class="cmd-code">mkdir 【資料夾名稱】</span>
-                    <p><strong>建立新資料夾</strong>：在當前目錄下新增一個指定名稱的新資料夾。</p>
-                </div>
-                <div class="cmd-card">
-                    <span class="cmd-code">clear / cls</span>
-                    <p><strong>清空終端機畫面</strong>：<code>clear</code> (Git Bash) 或 <code>cls</code> (Windows CMD) 清理當前視窗雜亂的輸出。</p>
+                    <span class="cmd-code">git push origin main</span>
+                    <p>推送本地儲存區程式碼覆蓋至 GitHub 遠端儲存庫。</p>
                 </div>
             </div>
         </section>
@@ -534,11 +476,10 @@
         <!-- Section 3: Dynamic Code Repository -->
         <section id="code-section">
             <div class="code-actions">
-                <h2>💻 3. 程式碼檔案庫 (支援新增與刪除)</h2>
+                <h2>💻 3. 程式碼檔案庫 (具備動態擴充與刪除功能)</h2>
                 <button class="btn btn-green" onclick="openAddCodeModal()">➕ 新增 / 匯入程式碼檔案</button>
             </div>
-            <p style="color: var(--text-muted); margin-bottom: 14px;">點擊頁籤檢視程式碼[cite: 1]。程式碼均已加上詳細逐行中文註解[cite: 1]，且支援複製與刪除檔頁！</p>
-
+            <p style="color: var(--text-muted); margin-bottom: 14px;">點擊頁籤檢視程式碼[cite: 1]。全 6 份原生檔案均已加上詳細逐行中文註解[cite: 1]，且支援複製與刪除檔頁！</p>
             <div class="tab-menu" id="codeTabMenu"></div>
             <div id="codeDisplayArea"></div>
         </section>
@@ -546,32 +487,20 @@
         <!-- Section 4: Deep OOP Details -->
         <section id="deep-details">
             <h2>🔬 4. 高階 OOP 與記憶體細節解析</h2>
-
             <div class="detail-box">
                 <h4>1. Stack vs Heap 記憶體配置 (物件生命週期)</h4>
                 <ul>
-                    <li><code>Book b("C++", 101);</code>：配置於 <b>Stack (堆疊)</b>。離開大括號範疇時自動呼叫解構子銷毀，速度極快且絕不洩漏。</li>
-                    <li><code>Book* b = new Book("C++", 101);</code>：配置於 <b>Heap (堆積)</b>。必須手動 <code>delete b;</code> 釋放，若忘記會造成 Memory Leak。現代 C++ 鼓勵採用 RAII 機制自動管理 Heap。</li>
+                    <li><code>Book b("C++", 101);</code>：配置於 <b>Stack</b>，離開作用域自動呼叫解構子銷毀。</li>
+                    <li><code>Book* b = new Book("C++", 101);</code>：配置於 <b>Heap</b>，必須手動 <code>delete b;</code> 釋放記憶體。</li>
                 </ul>
             </div>
-
             <div class="detail-box">
-                <h4>2. RAII (Resource Acquisition Is Initialization) 資源獲取即初始化</h4>
-                <p>C++ 最核心的哲學：將資源（動態記憶體、檔案控制代碼）的生命週期綁定至 Stack 物件的生命週期。當物件宣告時（建構子）向系統要資源，物件離開範疇（解構子）自動還資源。我們的 <code>std::vector&lt;Book&gt;</code> 即完美實現了 RAII。</p>
+                <h4>2. RAII (Resource Acquisition Is Initialization)</h4>
+                <p>將資源（動態記憶體）綁定至 Stack 物件生命週期，宣告時獲取資源，離開時自動解構歸還，<code>std::vector&lt;Book&gt;</code> 即完美運用 RAII。</p>
             </div>
-
             <div class="detail-box">
-                <h4>3. 初始化列表 vs 大括號賦值</h4>
-                <p>在建構子中使用 <code>: name(bookName)</code> 屬於<b>初始化階段</b>，直接在分配記憶體時放入數值（1 次複製）。若在大括號內寫 <code>this->name = bookName;</code>，會先觸發預設建構子產生空物件，再執行賦值（2 次記憶體開銷）。</p>
-            </div>
-
-            <div class="detail-box">
-                <h4>4. std::sort 比較邏輯與 (a, b) 參數</h4>
-                <p><code>std::sort</code> 排序時會將元素兩兩抽出比對。Lambda 回傳的 <code>bool</code> 值代表「<b>第一個參數 (a) 是否應該排在第二個參數 (b) 的前面</b>」：</p>
-                <ul>
-                    <li><code>a.getID() &lt; b.getID()</code>：當 a 比 b 小回傳 true 放在前面 &rarr; <b>升冪排序 (由小到大)</b></li>
-                    <li><code>a.getID() &gt; b.getID()</code>：當 a 比 b 大回傳 true 放在前面 &rarr; <b>降冪排序 (由大到小)</b></li>
-                </ul>
+                <h4>3. std::sort 比較邏輯 (a, b)</h4>
+                <p>Lambda 回傳 <code>a.getID() &lt; b.getID()</code> 時：當 a 比 b 小回傳 true 放在前面 &rarr; <b>升冪排序 (小到大)</b>。</p>
             </div>
         </section>
 
@@ -613,30 +542,26 @@
 
         <!-- Section 6: Interactive QA -->
         <section id="interactive-qa">
-            <h2>❓ 6. 互動式 QA 知識庫 (可在網站內新增與回覆)</h2>
-            <p style="color: var(--text-muted); margin-bottom: 16px;">你可以在此搜尋、新增提問，或對任何問題寫下解答與筆記回覆！</p>
-
-            <input type="text" id="qaSearch" class="search-box" placeholder="🔍 搜尋問題或關鍵字 (例如：std, git, sort, nodiscard)..." oninput="filterQA()">
-
-            <!-- QA Form -->
-            <form onsubmit="addQuestion(event)" style="background: #f8fafc; padding: 18px; border-radius: 10px; border: 1px solid var(--border-color); margin-bottom: 20px;">
+            <h2>❓ 6. 互動式 QA 知識庫 (雲端即時同步)</h2>
+            <p style="color: var(--text-muted); margin-bottom: 16px;">你可以在此搜尋提問，或對任何問題寫下解答與註解！</p>
+            <input type="text" id="qaSearch" class="search-box" placeholder="🔍 搜尋問題或關鍵字 (例：std, git, sort)..." oninput="filterQA()">
+            <form id="qaForm" style="background: #f8fafc; padding: 18px; border-radius: 10px; border: 1px solid var(--border-color); margin-bottom: 20px;">
                 <h4 style="margin-bottom: 12px; color: var(--primary-color);">➕ 新增提問 / QA</h4>
                 <div class="form-group">
-                    <input type="text" id="newQaTitle" placeholder="輸入問題標題 (例：為什麼 git status 看到的檔案是紅色的？)" required>
+                    <input type="text" id="newQaTitle" placeholder="輸入問題標題..." required>
                 </div>
                 <div class="form-group">
-                    <textarea id="newQaContent" placeholder="輸入問題的詳細補充描述 (選填)..."></textarea>
+                    <textarea id="newQaContent" placeholder="輸入詳細描述..."></textarea>
                 </div>
-                <button type="submit" class="btn btn-green">發布新提問</button>
+                <button type="submit" class="btn btn-green">發布新提問至雲端</button>
             </form>
-
             <div id="qaList"></div>
         </section>
 
-        <!-- Section 7: User Notes (Optimized UI) -->
+        <!-- Section 7: Cloud Notes -->
         <section id="user-notes">
-            <h2>📝 7. 個人優化版備忘錄</h2>
-            <p style="margin-bottom: 16px; color: var(--text-muted);">新增學習心得或觀念筆記，資料會<b>自動保存在瀏覽器本地端 (LocalStorage)</b>：</p>
+            <h2>📝 7. 雲端即時同步備忘錄 (全區共享)</h2>
+            <p style="margin-bottom: 16px; color: var(--text-muted);">發布的筆記會<b>秒速同步給所有訪客</b>，刪除防護需通過驗證：</p>
 
             <div class="note-filter-bar">
                 <button class="filter-btn active" onclick="filterNotes('all', this)">全部筆記</button>
@@ -646,11 +571,11 @@
                 <button class="filter-btn" onclick="filterNotes('todo', this)">待辦備忘</button>
             </div>
 
-            <form onsubmit="addNote(event)" style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 24px;">
+            <form id="cloudNoteForm" style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 24px;">
                 <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 12px;">
                     <div class="form-group">
-                        <label>筆記標題</label>
-                        <input type="text" id="noteTitle" placeholder="例：C++ Lambda 捕獲列表與 Git 分支" required>
+                        <label>筆記標題 / 名字</label>
+                        <input type="text" id="noteTitle" placeholder="例：小明 - C++ Lambda 筆記" required>
                     </div>
                     <div class="form-group">
                         <label>分類標籤</label>
@@ -664,11 +589,11 @@
                 </div>
                 <div class="form-group">
                     <label>詳細內容</label>
-                    <textarea id="noteContent" placeholder="輸入詳細筆記、程式碼實驗結果或疑問..." required></textarea>
+                    <textarea id="noteContent" placeholder="輸入寫給自己或朋友看的內容..." required></textarea>
                 </div>
                 <div style="display: flex; gap: 10px;">
-                    <button type="submit" class="btn">新增筆記</button>
-                    <button type="button" class="btn btn-secondary" onclick="exportNotes()">匯出完整 JSON 備份</button>
+                    <button type="submit" class="btn btn-green">🚀 發布至雲端資料庫</button>
+                    <button type="button" class="btn btn-secondary" onclick="exportNotesJSON()">匯出 JSON 備份</button>
                 </div>
             </form>
 
@@ -697,50 +622,230 @@
         </div>
     </div>
 
-    <!-- 引入 Prism.js 腳本 -->
+    <!-- 引入 Prism.js 高亮腳本 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
 
+    <!-- Firebase SDK v10 (Module) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Firebase 金鑰設定
+        const firebaseConfig = {
+            apiKey: "AIzaSyDWw7nJhCguObZRJoUvshjkquj1HSegR0Y",
+            authDomain: "oopwebsite-3b8b3.firebaseapp.com",
+            projectId: "oopwebsite-3b8b3",
+            storageBucket: "oopwebsite-3b8b3.firebasestorage.app",
+            messagingSenderId: "246733167748",
+            appId: "1:246733167748:web:ae5d24add3a4d57e6236d1",
+            measurementId: "G-JHP51KCG3P"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        
+        const notesRef = collection(db, "learning_notes");
+        const qaRef = collection(db, "qa_topics");
+
+        let currentFilter = 'all';
+        let allCloudNotes = [];
+
+        // 1. 雲端監聽：備忘錄即時同步
+        const qNotes = query(notesRef, orderBy("createdAt", "desc"));
+        onSnapshot(qNotes, (snapshot) => {
+            allCloudNotes = [];
+            snapshot.forEach((docSnap) => {
+                allCloudNotes.push({ id: docSnap.id, ...docSnap.data() });
+            });
+            renderNotesUI();
+        });
+
+        // 2. 雲端監聽：QA 知識庫即時同步
+        const qQA = query(qaRef, orderBy("createdAt", "desc"));
+        onSnapshot(qQA, (snapshot) => {
+            const container = document.getElementById('qaList');
+            container.innerHTML = '';
+
+            snapshot.forEach((docSnap) => {
+                const item = docSnap.data();
+                const qid = docSnap.id;
+
+                const card = document.createElement('div');
+                card.className = 'qa-card';
+                card.id = `qa-item-${qid}`;
+
+                card.innerHTML = `
+                    <div class="qa-header" onclick="document.getElementById('qa-item-${qid}').classList.toggle('active')">
+                        <span>${escapeHTML(item.title)}</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="qa-body">
+                        <p style="margin-bottom: 10px; color: var(--text-muted);">${escapeHTML(item.content)}</p>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">🕒 ${item.date || '剛剛'}</div>
+                        <button class="delete-btn" onclick="deleteCloudQA('${qid}')">🔒 驗證管理者密碼並刪除</button>
+                    </div>`;
+                container.appendChild(card);
+            });
+        });
+
+        // 渲染筆記列表與篩選機制
+        window.renderNotesUI = function() {
+            const container = document.getElementById('noteList');
+            container.innerHTML = '';
+
+            const filtered = currentFilter === 'all' ? allCloudNotes : allCloudNotes.filter(n => n.category === currentFilter);
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div style="grid-column: 1/-1; color: var(--text-muted); text-align: center; padding: 20px;">尚無此分類的備忘筆記。</div>';
+                return;
+            }
+
+            const tagClassMap = { oop: 'tag-oop', git: 'tag-git', thought: 'tag-thought', todo: 'tag-todo' };
+            const tagLabelMap = { oop: 'C++ / OOP', git: 'Git / Terminal', thought: '課堂心得', todo: '待辦備忘' };
+
+            filtered.forEach(note => {
+                const card = document.createElement('div');
+                card.className = 'note-card';
+                card.innerHTML = `
+                    <div>
+                        <span class="note-tag ${tagClassMap[note.category] || 'tag-oop'}">${tagLabelMap[note.category] || '筆記'}</span>
+                        <div class="note-card-title">${escapeHTML(note.title)}</div>
+                        <div class="note-card-date">🕒 ${note.date}</div>
+                        <div class="note-card-body">${escapeHTML(note.content)}</div>
+                    </div>
+                    <button class="delete-btn" onclick="deleteCloudNote('${note.id}')">🔒 驗證管理者密碼並刪除</button>`;
+                container.appendChild(card);
+            });
+        };
+
+        // 發布雲端筆記
+        document.getElementById('cloudNoteForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('noteTitle').value.trim();
+            const category = document.getElementById('noteCategory').value;
+            const content = document.getElementById('noteContent').value.trim();
+
+            if (!title || !content) return;
+
+            await addDoc(notesRef, {
+                title, category, content,
+                date: new Date().toLocaleString('zh-TW', { hour12: false }),
+                createdAt: Date.now()
+            });
+
+            document.getElementById('noteTitle').value = '';
+            document.getElementById('noteContent').value = '';
+        });
+
+        // 發布雲端 QA
+        document.getElementById('qaForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('newQaTitle').value.trim();
+            const content = document.getElementById('newQaContent').value.trim();
+
+            if (!title) return;
+
+            await addDoc(qaRef, {
+                title: title.startsWith('Q:') ? title : `Q: ${title}`,
+                content: content || '無補充描述',
+                date: new Date().toLocaleString('zh-TW', { hour12: false }),
+                createdAt: Date.now()
+            });
+
+            document.getElementById('newQaTitle').value = '';
+            document.getElementById('newQaContent').value = '';
+        });
+
+        // 分類過濾切換
+        window.filterNotes = function(category, btn) {
+            currentFilter = category;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderNotesUI();
+        };
+
+        // 🔐 刪除筆記密碼驗證
+        window.deleteCloudNote = async (id) => {
+            const inputPwd = prompt('🔒 請輸入管理者密碼：');
+            if (inputPwd === null) return;
+            if (inputPwd === '0603') {
+                if (confirm('✅ 驗證成功！確定要從雲端刪除這條筆記嗎？')) {
+                    await deleteDoc(doc(db, "learning_notes", id));
+                }
+            } else {
+                alert('❌ 密碼錯誤！無法刪除。');
+            }
+        };
+
+        // 🔐 刪除 QA 密碼驗證
+        window.deleteCloudQA = async (id) => {
+            const inputPwd = prompt('🔒 請輸入管理者密碼：');
+            if (inputPwd === null) return;
+            if (inputPwd === '0603') {
+                if (confirm('✅ 驗證成功！確定要刪除該 QA 提問嗎？')) {
+                    await deleteDoc(doc(db, "qa_topics", id));
+                }
+            } else {
+                alert('❌ 密碼錯誤！無法刪除。');
+            }
+        };
+
+        window.exportNotesJSON = function() {
+            const blob = new Blob([JSON.stringify(allCloudNotes, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `backup_notes_${Date.now()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        };
+
+        function escapeHTML(str) {
+            return str ? str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)) : '';
+        }
+    </script>
+
+    <!-- 本地檔案庫與 UI 控制 JavaScript -->
     <script>
-        /* --- 動態程式碼檔案庫系統 (全檔案完整註解) --- */
-        const CODE_STORAGE_KEY = 'cpp_oop_code_files_v2';
+        const CODE_STORAGE_KEY = 'cpp_oop_code_files_full_v3';
 
         const defaultCodeFiles = [
             {
                 id: 'book-hpp',
                 title: 'Book.hpp',
                 path: 'include/Book.hpp',
-                code: `#ifndef BOOK_HPP          // 標頭檔衛兵：防止這個標頭檔被重複 #include 導致重複定義錯誤\n#define BOOK_HPP\n\n#include <string>         // 引入 C++ 標準庫的字串型態 std::string\n\n// 定義強型態列舉（enum class），並指定底層資料型態為 int\nenum class BookCategory : int {\n    GENERAL = 0,                  // 總類（數值 0）\n    PHILOSOPHY = 100,             // 哲學類\n    RELIGION = 200,               // 宗教類\n    SCIENCE = 300,                // 自然科學類\n    APPLIED_SCIENCE = 400,        // 應用科學類\n    SOCIAL_SCIENCE = 500,         // 社會科學類\n    HISTORY_GEOGRAPHY_CHINA = 600, // 中國史地類\n    HISTORY_GEOGRAPHY_WORLD = 700, // 世界史地類\n    LANGUAGE_LITERATURE = 800,    // 語言文學類\n    ARTS = 900                    // 藝術類\n};\n\n// 宣告 Book 類別（書籍藍圖）\nclass Book {\npublic:\n    // 建構子 1 宣告：當使用者只傳入書名與 ID 時呼叫\n    Book(std::string bookName, int bookID);\n\n    // 建構子 2 宣告：當使用者傳入完整的書名、ID、作者與類別時呼叫\n    Book(std::string bookName, int bookID, std::string bookAuthor, BookCategory category);\n\n    // 取得書名的 Getter 函式；const 表示不修改變數；[[nodiscard]] 警告忽略回傳值\n    [[nodiscard]] std::string getName() const;\n\n    // 取得書籍 ID 的 Getter 函式\n    [[nodiscard]] int getID() const;\n\n    // 取得作者名稱的 Getter 函式\n    [[nodiscard]] std::string getAuthor() const;\n\n    // 取得書籍分類的 Getter 函式\n    [[nodiscard]] BookCategory getCategory() const;\n\nprivate:\n    std::string name;       // 私有成員變數：儲存書名\n    int id;                 // 私有成員變數：儲存書籍 ID\n    std::string author;     // 私有成員變數：儲存作者名稱\n    BookCategory category;  // 私有成員變數：儲存書籍分類\n};\n\n#endif                    // 結束標頭檔衛兵`
+                code: `#ifndef BOOK_HPP          // 標頭檔衛兵：防止標頭檔被重複 include 導致重覆定義\n#define BOOK_HPP\n\n#include <string>         // 引入 C++ 標準庫字串型態\n\nenum class BookCategory : int {\n    GENERAL = 0, PHILOSOPHY = 100, RELIGION = 200, SCIENCE = 300,\n    APPLIED_SCIENCE = 400, SOCIAL_SCIENCE = 500, HISTORY_GEOGRAPHY_CHINA = 600,\n    HISTORY_GEOGRAPHY_WORLD = 700, LANGUAGE_LITERATURE = 800, ARTS = 900\n};\n\nclass Book {\npublic:\n    Book(std::string bookName, int bookID);\n    Book(std::string bookName, int bookID, std::string bookAuthor, BookCategory category);\n\n    [[nodiscard]] std::string getName() const;\n    [[nodiscard]] int getID() const;\n    [[nodiscard]] std::string getAuthor() const;\n    [[nodiscard]] BookCategory getCategory() const;\n\nprivate:\n    std::string name;       // 私有變數：書名\n    int id;                 // 私有變數：ID\n    std::string author;     // 私有變數：作者\n    BookCategory category;  // 私有變數：分類\n};\n\n#endif`
             },
             {
                 id: 'book-cpp',
                 title: 'Book.cpp',
                 path: 'src/Book.cpp',
-                code: `#include "Book.hpp" // 引入 Book 類別宣告\n\n// 建構子 1 實作：利用初始化列表 (: name(bookName)...) 設定變數初值\n// 沒傳入的 author 預設為 "Unknown"，category 預設為 BookCategory::GENERAL\nBook::Book(std::string bookName, int bookID)\n    : name(bookName), id(bookID), author("Unknown"), category(BookCategory::GENERAL) {}\n\n// 建構子 2 實作：完整接收 4 個參數並分別指派給私有成員變數\nBook::Book(std::string bookName, int bookID, std::string bookAuthor, BookCategory category)\n    : name(bookName), id(bookID), author(bookAuthor), category(category) {}\n\n// 回傳私有成員變數 name 的內容\nstd::string Book::getName() const { return name; }\n\n// 回傳私有成員變數 id 的內容\nint Book::getID() const { return id; }\n\n// 回傳私有成員變數 author 的內容\nstd::string Book::getAuthor() const { return author; }\n\n// 回傳私有成員變數 category 的內容\nBookCategory Book::getCategory() const { return category; }`
+                code: `#include "Book.hpp"\n\nBook::Book(std::string bookName, int bookID)\n    : name(bookName), id(bookID), author("Unknown"), category(BookCategory::GENERAL) {}\n\nBook::Book(std::string bookName, int bookID, std::string bookAuthor, BookCategory category)\n    : name(bookName), id(bookID), author(bookAuthor), category(category) {}\n\nstd::string Book::getName() const { return name; }\nint Book::getID() const { return id; }\nstd::string Book::getAuthor() const { return author; }\nBookCategory Book::getCategory() const { return category; }`
             },
             {
                 id: 'bookshelf-hpp',
                 title: 'BookShelf.hpp',
                 path: 'include/BookShelf.hpp',
-                code: `#ifndef BOOK_SHELF_HPP          // 標頭檔衛兵：防止 BOOK_SHELF_HPP 重複引入\n#define BOOK_SHELF_HPP\n\n#include "Book.hpp"             // 引入 Book 類別，因為書櫃需要存放 Book 物件\n#include <vector>               // 引入動態陣列容器 std::vector\n\n// 宣告 BookShelf 類別（書櫃藍圖）\nclass BookShelf {\npublic:\n    // 建構子 1：只給分類，容量預設為 1000 本\n    BookShelf(BookCategory category);\n\n    // 建構子 2：傳入分類與自訂容量上限\n    BookShelf(BookCategory category, int bookCapacity);\n\n    // 設定書籍 ID 容許範圍\n    void setIDRange(int minID, int maxID);\n\n    // 新增書籍到書櫃中\n    void addBook(Book book);\n\n    // 依 ID 刪除書籍\n    void remove(int bookID);\n\n    // 依 ID 搜尋書籍；[[nodiscard]] 警告呼叫者不可忽略回傳值\n    [[nodiscard]] Book searchByBookID(int bookID);\n\n    // 依書名搜尋書籍\n    [[nodiscard]] Book searchByBookName(std::string bookName);\n\n    // 取得目前所有書籍列表\n    [[nodiscard]] std::vector<Book> getBooks() const;\n\n    // 取得書櫃分類\n    [[nodiscard]] BookCategory getCategory() const;\n\n    // 取得書櫃容量上限\n    [[nodiscard]] int getCapacity() const;\n\nprivate:\n    int bookCapacity;           // 私有變數：書櫃容納書籍數量上限\n    int minID = 0;              // 私有變數：允許存放書籍最小 ID (預設 0)\n    int maxID = 999;            // 私有變數：允許存放書籍最大 ID (預設 999)\n    std::vector<Book> books;    // 私有變數：用來存放 Book 物件的動態陣列\n    BookCategory category;      // 私有變數：這個書櫃專屬的書籍分類\n};\n\n#endif                          // 結束標頭檔衛兵`
+                code: `#ifndef BOOK_SHELF_HPP\n#define BOOK_SHELF_HPP\n\n#include "Book.hpp"\n#include <vector>\n\nclass BookShelf {\npublic:\n    BookShelf(BookCategory category);\n    BookShelf(BookCategory category, int bookCapacity);\n\n    void setIDRange(int minID, int maxID);\n    void addBook(Book book);\n    void remove(int bookID);\n\n    [[nodiscard]] Book searchByBookID(int bookID);\n    [[nodiscard]] Book searchByBookName(std::string bookName);\n    [[nodiscard]] std::vector<Book> getBooks() const;\n    [[nodiscard]] BookCategory getCategory() const;\n    [[nodiscard]] int getCapacity() const;\n\nprivate:\n    int bookCapacity;\n    int minID = 0;\n    int maxID = 999;\n    std::vector<Book> books;\n    BookCategory category;\n};\n\n#endif`
             },
             {
                 id: 'bookshelf-cpp',
                 title: 'BookShelf.cpp',
                 path: 'src/BookShelf.cpp',
-                code: `#include "BookShelf.hpp" // 引入 BookShelf 宣告\n#include <stdexcept>     // 引入標準例外類別 (如 invalid_argument, overflow_error)\n#include <algorithm>     // 引入標準演算法 (如 std::sort, std::find_if)\n\n// 建構子 1：預設容量 1000，ID 範圍 0~999\nBookShelf::BookShelf(BookCategory category)\n    : category(category), bookCapacity(1000), minID(0), maxID(999) {}\n\n// 建構子 2：自訂容量上限，ID 範圍 0~999\nBookShelf::BookShelf(BookCategory category, int bookCapacity)\n    : category(category), bookCapacity(bookCapacity), minID(0), maxID(999) {}\n\n// 設定 ID 容許範圍\nvoid BookShelf::setIDRange(int minID, int maxID) {\n    if (minID > maxID) {\n        throw std::invalid_argument("minID cannot exceed maxID");\n    }\n    if ((maxID - minID + 1) > bookCapacity) {\n        throw std::invalid_argument("ID range exceeds book capacity");\n    }\n    this->minID = minID;\n    this->maxID = maxID;\n}\n\n// 新增書籍到書櫃\nvoid BookShelf::addBook(Book book) {\n    if (static_cast<int>(books.size()) >= bookCapacity) {\n        throw std::overflow_error("BookShelf capacity full");\n    }\n    if (book.getCategory() != category) {\n        throw std::invalid_argument("Book category mismatch");\n    }\n    if (book.getID() < minID || book.getID() > maxID) {\n        throw std::invalid_argument("Book ID out of allowed range");\n    }\n    for (const auto& b : books) {\n        if (b.getID() == book.getID()) {\n            throw std::invalid_argument("Duplicate book ID");\n        }\n    }\n\n    books.push_back(book);\n\n    // 升冪排序 Lambda：a.getID() < b.getID() 為 true 時 a 排前面\n    std::sort(books.begin(), books.end(), [](const Book& a, const Book& b) {\n        return a.getID() < b.getID();\n    });\n}\n\n// 依 ID 刪除書籍\nvoid BookShelf::remove(int bookID) {\n    auto it = std::find_if(books.begin(), books.end(), [bookID](const Book& b) {\n        return b.getID() == bookID;\n    });\n    if (it == books.end()) {\n        throw std::invalid_argument("Book ID not found");\n    }\n    books.erase(it);\n}\n\n// 依 ID 搜尋書籍\nBook BookShelf::searchByBookID(int bookID) {\n    for (const auto& b : books) {\n        if (b.getID() == bookID) return b;\n    }\n    throw std::invalid_argument("Book ID not found");\n}\n\n// 依書名搜尋書籍\nBook BookShelf::searchByBookName(std::string bookName) {\n    for (const auto& b : books) {\n        if (b.getName() == bookName) return b;\n    }\n    throw std::invalid_argument("Book name not found");\n}\n\nstd::vector<Book> BookShelf::getBooks() const { return books; }\nBookCategory BookShelf::getCategory() const { return category; }\nint BookShelf::getCapacity() const { return bookCapacity; }`
+                code: `#include "BookShelf.hpp"\n#include <stdexcept>\n#include <algorithm>\n\nBookShelf::BookShelf(BookCategory category)\n    : category(category), bookCapacity(1000), minID(0), maxID(999) {}\n\nBookShelf::BookShelf(BookCategory category, int bookCapacity)\n    : category(category), bookCapacity(bookCapacity), minID(0), maxID(999) {}\n\nvoid BookShelf::setIDRange(int minID, int maxID) {\n    if (minID > maxID) throw std::invalid_argument("minID cannot exceed maxID");\n    if ((maxID - minID + 1) > bookCapacity) throw std::invalid_argument("ID range exceeds book capacity");\n    this->minID = minID;\n    this->maxID = maxID;\n}\n\nvoid BookShelf::addBook(Book book) {\n    if (static_cast<int>(books.size()) >= bookCapacity) throw std::overflow_error("BookShelf capacity full");\n    if (book.getCategory() != category) throw std::invalid_argument("Book category mismatch");\n    if (book.getID() < minID || book.getID() > maxID) throw std::invalid_argument("Book ID out of allowed range");\n    for (const auto& b : books) {\n        if (b.getID() == book.getID()) throw std::invalid_argument("Duplicate book ID");\n    }\n\n    books.push_back(book);\n\n    // 升冪排序\n    std::sort(books.begin(), books.end(), [](const Book& a, const Book& b) {\n        return a.getID() < b.getID();\n    });\n}\n\nvoid BookShelf::remove(int bookID) {\n    auto it = std::find_if(books.begin(), books.end(), [bookID](const Book& b) {\n        return b.getID() == bookID;\n    });\n    if (it == books.end()) throw std::invalid_argument("Book ID not found");\n    books.erase(it);\n}\n\nBook BookShelf::searchByBookID(int bookID) {\n    for (const auto& b : books) if (b.getID() == bookID) return b;\n    throw std::invalid_argument("Book ID not found");\n}\n\nBook BookShelf::searchByBookName(std::string bookName) {\n    for (const auto& b : books) if (b.getName() == bookName) return b;\n    throw std::invalid_argument("Book name not found");\n}\n\nstd::vector<Book> BookShelf::getBooks() const { return books; }\nBookCategory BookShelf::getCategory() const { return category; }\nint BookShelf::getCapacity() const { return bookCapacity; }`
             },
             {
                 id: 'booksection-hpp',
                 title: 'BookSection.hpp',
                 path: 'include/BookSection.hpp',
-                code: `#ifndef BOOK_SECTION_HPP // 標頭檔衛兵\n#define BOOK_SECTION_HPP\n\n#include <vector>        // 引入動態陣列容器\n#include "BookShelf.hpp" // 引入 BookShelf 介面\n\n// 宣告 BookSection 類別（圖書分區）\nclass BookSection {\npublic:\n    // 建構子：設定該分區書櫃容量上限\n    BookSection(int bookShelfCapacity);\n\n    // 新增書櫃\n    void addShelf(BookShelf shelf);\n\n    // 依類別搜尋書櫃 (回傳包含所有符合條件書櫃的 vector)\n    [[nodiscard]] std::vector<BookShelf> searchByCategory(BookCategory category);\n\n    // 取得所有書櫃\n    [[nodiscard]] std::vector<BookShelf> getShelves() const;\n\n    // 取得分區容量上限\n    [[nodiscard]] int getCapacity() const;\n\nprivate:\n    int bookShelfCapacity;         // 私有變數：書櫃容量上限\n    std::vector<BookShelf> shelfs; // 私有變數：存放 BookShelf 物件的動態陣列\n};\n\n#endif`
+                code: `#ifndef BOOK_SECTION_HPP\n#define BOOK_SECTION_HPP\n\n#include <vector>\n#include "BookShelf.hpp"\n\nclass BookSection {\npublic:\n    BookSection(int bookShelfCapacity);\n    void addShelf(BookShelf shelf);\n    [[nodiscard]] std::vector<BookShelf> searchByCategory(BookCategory category);\n    [[nodiscard]] std::vector<BookShelf> getShelves() const;\n    [[nodiscard]] int getCapacity() const;\n\nprivate:\n    int bookShelfCapacity;\n    std::vector<BookShelf> shelfs;\n};\n\n#endif`
             },
             {
                 id: 'booksection-cpp',
                 title: 'BookSection.cpp',
                 path: 'src/BookSection.cpp',
-                code: `#include "BookSection.hpp" // 引入對應宣告\n#include <stdexcept>       // 引入例外處理標頭檔\n\nBookSection::BookSection(int bookShelfCapacity)\n    : bookShelfCapacity(bookShelfCapacity) {}\n\nvoid BookSection::addShelf(BookShelf shelf) {\n    if (static_cast<int>(shelfs.size()) >= bookShelfCapacity) {\n        throw std::invalid_argument("BookSection capacity reached");\n    }\n    shelfs.push_back(shelf);\n}\n\nstd::vector<BookShelf> BookSection::searchByCategory(BookCategory category) {\n    std::vector<BookShelf> result;\n    for (const auto& shelf : shelfs) {\n        if (shelf.getCategory() == category) {\n            result.push_back(shelf);\n        }\n    }\n    if (result.empty()) {\n        throw std::invalid_argument("No shelf found for this category");\n    }\n    return result;\n}\n\nstd::vector<BookShelf> BookSection::getShelves() const { return shelfs; }\nint BookSection::getCapacity() const { return bookShelfCapacity; }`
+                code: `#include "BookSection.hpp"\n#include <stdexcept>\n\nBookSection::BookSection(int bookShelfCapacity) : bookShelfCapacity(bookShelfCapacity) {}\n\nvoid BookSection::addShelf(BookShelf shelf) {\n    if (static_cast<int>(shelfs.size()) >= bookShelfCapacity) throw std::invalid_argument("BookSection capacity reached");\n    shelfs.push_back(shelf);\n}\n\nstd::vector<BookShelf> BookSection::searchByCategory(BookCategory category) {\n    std::vector<BookShelf> result;\n    for (const auto& shelf : shelfs) {\n        if (shelf.getCategory() == category) result.push_back(shelf);\n    }\n    if (result.empty()) throw std::invalid_argument("No shelf found for this category");\n    return result;\n}\n\nstd::vector<BookShelf> BookSection::getShelves() const { return shelfs; }\nint BookSection::getCapacity() const { return bookShelfCapacity; }`
             }
         ];
 
@@ -757,14 +862,12 @@
             displayArea.innerHTML = '';
 
             files.forEach((file, index) => {
-                // 標籤按鈕
                 const btn = document.createElement('button');
                 btn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
                 btn.innerText = file.title;
                 btn.onclick = () => switchCodeTab(file.id, btn);
                 tabMenu.appendChild(btn);
 
-                // 程式碼顯示容器 (含複製與刪除按鈕)
                 const container = document.createElement('div');
                 container.id = `code-file-${file.id}`;
                 container.className = 'code-container';
@@ -772,7 +875,7 @@
 
                 container.innerHTML = `
                     <div class="code-header">
-                        <span>${escapeHTML(file.path)}</span>
+                        <span>${file.path}</span>
                         <div>
                             <button class="copy-btn" onclick="copyCode(this)">複製程式碼</button>
                             <button class="delete-code-btn" onclick="deleteCodeFile('${file.id}')">🗑️ 刪除檔案</button>
@@ -794,7 +897,7 @@
         }
 
         function deleteCodeFile(fileId) {
-            if (!confirm('確定要刪除這個程式碼檔案嗎？')) return;
+            if (!confirm('確定刪除這個程式碼分頁嗎？')) return;
             const saved = localStorage.getItem(CODE_STORAGE_KEY);
             let files = saved ? JSON.parse(saved) : defaultCodeFiles;
 
@@ -843,71 +946,6 @@
             });
         }
 
-        /* --- 互動式 QA 系統 --- */
-        const QA_KEY = 'cpp_oop_qa_list_v3';
-        const defaultQAs = [
-            {
-                id: 1,
-                title: "Q: git status 顯示的紅色與綠色字體代表什麼意思？",
-                content: "在 MINGW64 / Git Bash 終端機執行 git status 時，字體顏色代表檔案在版本控制中的狀態。",
-                replies: [
-                    { id: 101, author: "助教/筆記員", text: "🔴 紅色：代表檔案在「工作區」被修改過，或是新建立的檔案，尚未執行 git add 入暫存區。\n🟢 綠色：代表檔案已經執行 git add，成功進入「暫存區」，等待執行 git commit 打包記錄！", date: "2026/10/27" }
-                ]
-            },
-            {
-                id: 2,
-                title: "Q: std::sort 裡的 Lambda (a, b) 寫 a.getID() > b.getID() 會怎樣？",
-                content: "std::sort 內建演算法在兩兩比較元素時，需要判斷第一個參數 (a) 是否應擺在第二個參數 (b) 的前面。",
-                replies: [
-                    { id: 102, author: "筆記員", text: "寫 > 符號時：當 a 比 b 大會回傳 true，代表數字大的要放在前面，因此排序結果會變成「由大到小 (降冪排序 Descending Order)」。", date: "2026/10/27" }
-                ]
-            }
-        ];
-
-        function loadQA() {
-            const saved = localStorage.getItem(QA_KEY);
-            const qaList = saved ? JSON.parse(saved) : defaultQAs;
-            renderQA(qaList);
-        }
-
-        function renderQA(qaList) {
-            const container = document.getElementById('qaList');
-            container.innerHTML = '';
-            qaList.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'qa-card';
-                card.id = `qa-item-${item.id}`;
-
-                let repliesHTML = (item.replies && item.replies.length > 0)
-                    ? item.replies.map(r => `
-                        <div class="reply-item">
-                            <div class="reply-meta">👤 ${escapeHTML(r.author)} • 🕒 ${r.date}</div>
-                            <div>${escapeHTML(r.text).replace(/\n/g, '<br>')}</div>
-                        </div>`).join('')
-                    : '<div style="color: var(--text-muted); font-size: 0.85rem;">目前尚無回覆，成為第一個回答的人吧！</div>';
-
-                card.innerHTML = `
-                    <div class="qa-header" onclick="toggleQA(${item.id})">
-                        <span>${escapeHTML(item.title)}</span>
-                        <span>▼</span>
-                    </div>
-                    <div class="qa-body">
-                        <p style="margin-bottom: 10px; color: var(--text-muted);">${escapeHTML(item.content)}</p>
-                        <div class="replies-list">
-                            <h5 style="margin-bottom: 8px; color: var(--primary-color);">💬 討論與解答 (${item.replies ? item.replies.length : 0})</h5>
-                            ${repliesHTML}
-                            <form class="reply-form" onsubmit="addReply(event, ${item.id})">
-                                <input type="text" id="replyAuthor-${item.id}" placeholder="你的稱呼" style="width: 130px;" required>
-                                <input type="text" id="replyText-${item.id}" placeholder="撰寫回答或註解..." style="flex-grow:1;" required>
-                                <button type="submit" class="btn">回覆</button>
-                            </form>
-                        </div>
-                    </div>`;
-                container.appendChild(card);
-            });
-        }
-
-        function toggleQA(id) { document.getElementById(`qa-item-${id}`).classList.toggle('active'); }
         function filterQA() {
             const query = document.getElementById('qaSearch').value.toLowerCase();
             document.querySelectorAll('.qa-card').forEach(card => {
@@ -915,164 +953,12 @@
             });
         }
 
-        function addQuestion(event) {
-            event.preventDefault();
-            const title = document.getElementById('newQaTitle').value.trim();
-            const content = document.getElementById('newQaContent').value.trim();
-            if (!title) return;
-
-            const saved = localStorage.getItem(QA_KEY);
-            const qaList = saved ? JSON.parse(saved) : defaultQAs;
-            const newQa = { id: Date.now(), title: title.startsWith('Q:') ? title : `Q: ${title}`, content: content || "點擊下方填寫此問題的詳細解答...", replies: [] };
-            qaList.unshift(newQa);
-
-            localStorage.setItem(QA_KEY, JSON.stringify(qaList));
-            document.getElementById('newQaTitle').value = '';
-            document.getElementById('newQaContent').value = '';
-            renderQA(qaList);
-            toggleQA(newQa.id);
-        }
-
-        function addReply(event, qaId) {
-            event.preventDefault();
-            const author = document.getElementById(`replyAuthor-${qaId}`).value.trim();
-            const text = document.getElementById(`replyText-${qaId}`).value.trim();
-            if (!author || !text) return;
-
-            const saved = localStorage.getItem(QA_KEY);
-            let qaList = saved ? JSON.parse(saved) : defaultQAs;
-            const target = qaList.find(q => q.id === qaId);
-
-            if (target) {
-                if (!target.replies) target.replies = [];
-                target.replies.push({ id: Date.now(), author, text, date: new Date().toLocaleDateString() });
-                localStorage.setItem(QA_KEY, JSON.stringify(qaList));
-                renderQA(qaList);
-                document.getElementById(`qa-item-${qaId}`).classList.add('active');
-            }
-        }
-
-        /* --- 優化版備忘錄系統 --- */
-        const NOTES_KEY = 'cpp_oop_learning_notes_v3';
-        let currentFilter = 'all';
-
-        const defaultNotes = [
-            {
-                id: 1,
-                title: "Git add & commit 控制流程",
-                category: "git",
-                content: "1. git status 檢查修改\n2. git add . 送進暫存區\n3. git commit -m '註解' 歸檔版本",
-                date: "2026/10/27 15:30"
-            },
-            {
-                id: 2,
-                title: "C++ Lambda 升降冪秘訣",
-                category: "oop",
-                content: "std::sort 傳入 (a, b):\na.getID() < b.getID() 為升冪 (小到大)\na.getID() > b.getID() 為降冪 (大到小)",
-                date: "2026/10/27 16:20"
-            }
-        ];
-
-        function loadNotes() {
-            const saved = localStorage.getItem(NOTES_KEY);
-            const notes = saved ? JSON.parse(saved) : defaultNotes;
-            renderNotes(notes);
-        }
-
-        function renderNotes(notes) {
-            const container = document.getElementById('noteList');
-            container.innerHTML = '';
-
-            const filtered = currentFilter === 'all' ? notes : notes.filter(n => n.category === currentFilter);
-
-            if (filtered.length === 0) {
-                container.innerHTML = '<div style="grid-column: 1/-1; color: var(--text-muted); text-align: center; padding: 20px;">尚無此分類的備忘筆記。</div>';
-                return;
-            }
-
-            filtered.forEach(note => {
-                const card = document.createElement('div');
-                card.className = 'note-card';
-
-                const tagClassMap = { oop: 'tag-oop', git: 'tag-git', thought: 'tag-thought', todo: 'tag-todo' };
-                const tagLabelMap = { oop: 'C++ / OOP', git: 'Git / Terminal', thought: '課堂心得', todo: '待辦備忘' };
-
-                card.innerHTML = `
-                    <div>
-                        <span class="note-tag ${tagClassMap[note.category] || 'tag-oop'}">${tagLabelMap[note.category] || '筆記'}</span>
-                        <div class="note-card-title">${escapeHTML(note.title)}</div>
-                        <div class="note-card-date">🕒 ${note.date}</div>
-                        <div class="note-card-body">${escapeHTML(note.content)}</div>
-                    </div>
-                    <div class="note-card-footer">
-                        <button class="delete-btn" onclick="deleteNote(${note.id})">刪除筆記</button>
-                    </div>`;
-                container.appendChild(card);
-            });
-        }
-
-        function addNote(event) {
-            event.preventDefault();
-            const title = document.getElementById('noteTitle').value.trim();
-            const category = document.getElementById('noteCategory').value;
-            const content = document.getElementById('noteContent').value.trim();
-            if (!title || !content) return;
-
-            const saved = localStorage.getItem(NOTES_KEY);
-            const notes = saved ? JSON.parse(saved) : defaultNotes;
-
-            notes.unshift({ id: Date.now(), title, category, content, date: new Date().toLocaleString() });
-            localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
-
-            document.getElementById('noteTitle').value = '';
-            document.getElementById('noteContent').value = '';
-            renderNotes(notes);
-        }
-
-        function filterNotes(category, btn) {
-            currentFilter = category;
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            loadNotes();
-        }
-
-        function deleteNote(id) {
-            if (!confirm('確定刪除此筆記？')) return;
-            const saved = localStorage.getItem(NOTES_KEY);
-            if (!saved) return;
-            let notes = JSON.parse(saved).filter(n => n.id !== id);
-            localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
-            renderNotes(notes);
-        }
-
-        function exportNotes() {
-            const savedNotes = localStorage.getItem(NOTES_KEY);
-            const savedQA = localStorage.getItem(QA_KEY);
-            const savedCode = localStorage.getItem(CODE_STORAGE_KEY);
-
-            const backupData = {
-                notes: savedNotes ? JSON.parse(savedNotes) : [],
-                qa: savedQA ? JSON.parse(savedQA) : [],
-                codeFiles: savedCode ? JSON.parse(savedCode) : []
-            };
-
-            const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `oop_website_backup_${Date.now()}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-
         function escapeHTML(str) {
-            return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
+            return str ? str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)) : '';
         }
 
         window.onload = function() {
             loadCodeFiles();
-            loadQA();
-            loadNotes();
         };
     </script>
 </body>
