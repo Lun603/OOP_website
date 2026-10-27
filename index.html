@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OOP 學習網站 - 程式碼庫、Git寶典與互動筆記</title>
+    <!-- 引入 Prism.js 程式碼高亮主題 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #0f172a;
+            --text-muted: #475569;
+            --border-color: #e2e8f0;
+            --accent-green: #10b981;
+            --accent-purple: #8b5cf6;
+            --accent-amber: #f59e0b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* 側邊欄導覽 */
+        .sidebar {
+            width: 280px;
+            background-color: var(--card-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 24px 18px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar ul { list-style: none; }
+        .sidebar li { margin-bottom: 6px; }
+        .sidebar a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.92rem;
+            display: block;
+            padding: 10px 14px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+        .sidebar a:hover {
+            background-color: #eff6ff;
+            color: var(--primary-color);
+        }
+
+        /* 主內容區 */
+        .main-content {
+            flex-grow: 1;
+            padding: 40px;
+            max-width: 1120px;
+        }
+
+        header {
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            color: var(--text-color);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        header p { color: var(--text-muted); font-size: 1.05rem; }
+
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 32px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+        }
+
+        section h2 { font-size: 1.45rem; margin-bottom: 18px; color: var(--primary-color); }
+
+        /* 動態頁籤與程式碼庫 */
+        .code-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tab-menu { display: flex; gap: 8px; flex-wrap: wrap; }
+        .tab-btn {
+            background: #f1f5f9;
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+        .tab-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .code-container { position: relative; margin-top: 12px; }
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1e293b;
+            color: #94a3b8;
+            padding: 10px 18px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            font-family: monospace;
+            font-size: 0.88rem;
+        }
+
+        .copy-btn {
+            background: #334155;
+            color: #f8fafc;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.2s;
+        }
+        .copy-btn:hover { background: #475569; }
+
+        pre[class*="language-"] {
+            margin: 0 !important;
+            border-top-left-radius: 0 !important;
+            border-top-right-radius: 0 !important;
+            border-bottom-left-radius: 10px !important;
+            border-bottom-right-radius: 10px !important;
+        }
+
+        /* 觀念說明與 Git 指令卡片 */
+        .detail-box {
+            background-color: #f8fafc;
+            border-left: 4px solid var(--primary-color);
+            padding: 18px;
+            border-radius: 8px;
+            margin-top: 16px;
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+            border-top: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .detail-box.git-box { border-left-color: var(--accent-green); background-color: #f0fdf4; }
+        .detail-box h4 { margin-bottom: 8px; color: var(--text-color); font-size: 1.05rem; }
+
+        .cmd-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .cmd-card {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 18px;
+            background: #ffffff;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+        }
+        .cmd-code {
+            font-family: "Fira Code", Consolas, Monaco, monospace;
+            background: #0f172a;
+            color: #38bdf8;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            display: inline-block;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        /* 表格 */
+        table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+        th, td { border: 1px solid var(--border-color); padding: 12px 16px; text-align: left; font-size: 0.93rem; }
+        th { background-color: #f1f5f9; font-weight: 600; }
+
+        /* 搜尋框 */
+        .search-box {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            background: #f8fafc;
+        }
+
+        /* 互動式 Q&A 區塊 */
+        .qa-card {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            margin-bottom: 16px;
+            background: #fff;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+        .qa-header {
+            background-color: #f8fafc;
+            padding: 16px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .qa-header:hover { background-color: #f1f5f9; }
+        .qa-body {
+            padding: 20px;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        .qa-card.active .qa-body { display: block; }
+
+        .replies-list {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px dashed var(--border-color);
+        }
+        .reply-item {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            font-size: 0.92rem;
+        }
+        .reply-meta { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px; }
+
+        .reply-form { display: flex; gap: 8px; margin-top: 12px; }
+        .reply-form input {
+            padding: 9px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        /* 備忘錄優化版 UI */
+        .note-filter-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .note-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+        }
+        .note-card {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .note-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.06);
+        }
+        .note-tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .tag-oop { background-color: #dbeafe; color: #1e40af; }
+        .tag-git { background-color: #dcfce7; color: #166534; }
+        .tag-thought { background-color: #fef3c7; color: #92400e; }
+        .tag-todo { background-color: #f3e8ff; color: #6b21a8; }
+
+        .note-card-title { font-size: 1.05rem; font-weight: 700; color: var(--text-color); margin-bottom: 6px; }
+        .note-card-date { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px; }
+        .note-card-body { font-size: 0.92rem; white-space: pre-wrap; color: #334155; line-height: 1.6; flex-grow: 1; }
+
+        .note-card-footer {
+            margin-top: 14px;
+            padding-top: 10px;
+            border-top: 1px solid #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* 表單與按鈕 */
+        .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+        .form-group label { font-size: 0.9rem; font-weight: 600; color: var(--text-color); }
+        .form-group input, .form-group textarea, .form-group select {
+            padding: 11px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: #ffffff;
+        }
+        .form-group textarea { resize: vertical; min-height: 90px; }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+        .btn:hover { background-color: var(--primary-hover); }
+        .btn-green { background-color: var(--accent-green); }
+        .btn-green:hover { background-color: #059669; }
+        .btn-secondary { background-color: #64748b; }
+        .btn-secondary:hover { background-color: #475569; }
+
+        .delete-btn {
+            color: #ef4444;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .delete-btn:hover { text-decoration: underline; }
+
+        /* Modal 彈出視窗 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(4px);
+        }
+        .modal-content {
+            background: white;
+            padding: 28px;
+            border-radius: 14px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: relative; }
+            .main-content { padding: 20px; }
+            .note-list { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <h2>📚 OOP 學習網站</h2>
+        <ul>
+            <li><a href="#overview">1. 專案系統架構</a></li>
+            <li><a href="#git-section">2. Git & CMD 實用指令寶典</a></li>
+            <li><a href="#code-section">3. 程式碼檔案庫 (可動態擴充)</a></li>
+            <li><a href="#deep-details">4. 高階 OOP 與記憶體解析</a></li>
+            <li><a href="#oop-concepts">5. C vs C++ OOP 對照表</a></li>
+            <li><a href="#interactive-qa">6. 互動式 QA 知識庫</a></li>
+            <li><a href="#user-notes">7. 個人優化版備忘錄</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <header>
+            <h1>OOP 學習網站</h1>
+            <p>融合 C++ 物件導向架構、Git 版本控制語法、記憶體原理與高擴充性學習筆記庫。</p>
+        </header>
+
+        <!-- Section 1: Overview -->
+        <section id="overview">
+            <h2>📌 1. 專案系統架構[cite: 1]</h2>
+            <p>本專案實作三層階層架構：[cite: 1]</p>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li><strong>Book（書籍）</strong>：基礎資料單元，儲存書名、ID、作者與分類。[cite: 1]</li>
+                <li><strong>BookShelf（書櫃）</strong>：容器管理者，儲存同分類書籍，具備 ID 區間驗證與升冪排序。[cite: 1]</li>
+                <li><strong>BookSection（圖書分區）</strong>：頂層容器，管理複數個書櫃並提供分區搜尋能力。[cite: 1]</li>
+            </ul>
+        </section>
+
+        <!-- Section 2: Git & CMD Section (Expanded) -->
+        <section id="git-section">
+            <h2>🌿 2. Git (MINGW64) & Terminal 實用指令寶典</h2>
+            
+            <div class="detail-box git-box">
+                <h4>🎓 課堂重點：Git 控制版本的三大核心區域觀念</h4>
+                <p>Git 是如何管理程式碼演進歷史的？底層分為三大運作區域：</p>
+                <ol style="margin-left: 20px; margin-top: 8px;">
+                    <li><strong>工作區 (Working Directory)</strong>：你當前編輯檔案的實際資料夾目錄。</li>
+                    <li><strong>暫存區 (Staging Area / Index)</strong>：執行 <code>git add</code> 後，準備好要上傳與記錄的檔案清單。</li>
+                    <li><strong>儲存區 (Repository)</strong>：執行 <code>git commit</code> 後，正式打包儲存並標記目前版本的節點。</li>
+                </ol>
+                <p style="margin-top: 8px; font-weight: 600; color: #047857;">💡 工作流程：工作區修改程式 &rarr; <code>git add</code> 入暫存區 &rarr; <code>git commit -m</code> 歸檔標記版本！</p>
+            </div>
+
+            <h3>建構與版本提交指令：</h3>
+            <div class="cmd-grid">
+                <div class="cmd-card">
+                    <span class="cmd-code">git init</span>
+                    <p><strong>建立工作區域</strong>：在當前目錄初始化 Git 儲存庫，產生隱藏的 <code>.git</code> 資料夾來紀錄歷史。</p>
+                </div>
+                <div class="cmd-card">
+                    <span class="cmd-code">git status</span>
+                    <p><strong>檢視當前狀態</strong>：查看有哪些檔案被修改。🔴 <b>紅色</b>代表未進暫存區，🟢 <b>綠色</b>代表已進入暫存區。</p>
+                </div>
+                <div class="cmd-card">
+                    <span class="cmd-code">git add &lt;檔案&gt; / git add .</span>
+                    <p><strong>丟進暫存區</strong>：將檔案從工作區丟進暫存區。<code>git add .</code> 可一次加入全目錄修改。</p>
+                </div>
+                <div class="cmd-card">
+                    <span class="cmd-code">git commit -m "版本說明"</span>
+                    <p><strong>提交正式版本</strong>：將暫存區的檔案正式打包提交至儲存區，並附上本次修改的說明標記。</p>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 25px;">歷史、重置與分支管理指令 (進階)：</h3>
+            <div class="cmd-grid">
+                <div class="cmd-card">
+                    <span class="cmd-code">git log / git log --oneline</span>
+                    <p><strong>查看 Git 日誌</strong>：顯示過往所有 commit 的歷史紀錄、作者、時間點以及 commit ID 前 7 碼。</p>
+                </div>
+                <div class="cmd-card">
+                    <span class="cmd-code">git reset --soft &lt;commit ID&gt;</span>
+                    <p><strong>重置 commit 紀錄 (溫和)</strong>：回到指定版本點。<code>--soft</code> 模式會保留你目前工作區與暫存區的程式碼。</p>
+                </div>
+                <div class="cmd-card">
+                    <span class="cmd-code">git diff</span>
+                    <p><strong>比較檔案差異</strong>：比較「工作區」與「暫存區」之間程式碼詳細修改的行數差異。</p>
+                </div>
+                <div class="cmd-card">
+                    <span class="cmd-code">git branch / git switch -c &lt;分支名&gt;</span>
+                    <p><strong>分支管理</strong>：<code>git branch</code> 查看所有分支；<code>git switch -c new-feature</code> 建立並切換至新開發分支。</p>
+                </div>
+                <div class="cmd-card">
+                    <span class="cmd-code">git stash / git stash pop</span>
+                    <p><strong>暫存工作進度</strong>：把尚未完工的程式碼暫時隱藏封存起來，切換分支處理突發 Bug 後再用 <code>pop</code> 還原。</p>
+                </div>
+                <div class="cmd-card">
+                    <span class="cmd-code">git remote add origin &lt;URL&gt; / git push</span>
+                    <p><strong>遠端同步 (GitHub)</strong>：將本地端的儲存區連結至 GitHub 遠端庫，並執行 <code>git push -u origin main</code> 推送上傳。</p>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 25px;">CMD / MINGW64 基礎終端機指令：</h3>
+            <div class="cmd-grid">
+                <div class="cmd-card">
+                    <span class="cmd-code">cd &lt;位址&gt; / cd ..</span>
+                    <p><strong>切換目錄</strong>：<code>cd /c/</code> 移動至特定路徑；<code>cd ..</code> 離開並回到上一層資料夾。</p>
+                </div>
+                <div class="cmd-card">
+                    <span class="cmd-code">dir / ls -a</span>
+                    <p><strong>查看目錄內容</strong>：<code>dir</code> (Windows) 或 <code>ls -a</code> (Bash) 列出當前目錄所有檔案（含隱藏檔）。</p>
+                </div>
+                <div class="cmd-card">
+                    <span class="cmd-code">mkdir 【資料夾名稱】</span>
+                    <p><strong>建立新資料夾</strong>：在當前目錄下新增一個指定名稱的新資料夾。</p>
+                </div>
+                <div class="cmd-card">
+                    <span class="cmd-code">notepad &lt;檔案.txt&gt;</span>
+                    <p><strong>記事本開啟檔案</strong>：使用 Windows 預設記事本文字編輯器直接打開指定文字檔。</p>
+                </div>
+                <div class="cmd-card">
+                    <span class="cmd-code">clear / cls</span>
+                    <p><strong>清空終端機畫面</strong>：<code>clear</code> (Git Bash) 或 <code>cls</code> (Windows CMD) 清理當前視窗雜亂的輸出。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Flexible Dynamic Code Repository -->
+        <section id="code-section">
+            <div class="code-actions">
+                <h2>💻 3. 程式碼檔案庫 (具備未來擴充彈性)</h2>
+                <button class="btn btn-green" onclick="openAddCodeModal()">➕ 新增 / 匯入程式碼檔案</button>
+            </div>
+            <p style="color: var(--text-muted); margin-bottom: 14px;">點擊頁籤切換檢視專案程式碼。未來如果有新的 `.hpp` / `.cpp` 檔案，可以直接點擊右上方按鈕動態匯入！</p>
+
+            <div class="tab-menu" id="codeTabMenu"></div>
+            <div id="codeDisplayArea"></div>
+        </section>
+
+        <!-- Section 4: Deep OOP Details -->
+        <section id="deep-details">
+            <h2>🔬 4. 高階 OOP 與記憶體細節解析</h2>
+
+            <div class="detail-box">
+                <h4>1. Stack vs Heap 記憶體配置 (物件生命週期)</h4>
+                <ul>
+                    <li><code>Book b("C++", 101);</code>：配置於 <b>Stack (堆疊)</b>。離開大括號範疇時自動呼叫解構子銷毀，速度極快且絕不洩漏。</li>
+                    <li><code>Book* b = new Book("C++", 101);</code>：配置於 <b>Heap (堆積)</b>。必須手動 <code>delete b;</code> 釋放，若忘記會造成 Memory Leak。現代 C++ 鼓勵採用 RAII 機制（如 <code>std::vector</code> 或 <code>std::unique_ptr</code>）自動管理 Heap。</li>
+                </ul>
+            </div>
+
+            <div class="detail-box">
+                <h4>2. RAII (Resource Acquisition Is Initialization) 資源獲取即初始化</h4>
+                <p>C++ 最核心的哲學：將資源（動態記憶體、檔案控制代碼）的生命週期綁定至 Stack 物件的生命週期。當物件宣告時（建構子）向系統要資源，物件離開範疇（解構子）自動還資源。我們的 <code>std::vector&lt;Book&gt;</code> 即完美實現了 RAII。</p>
+            </div>
+
+            <div class="detail-box">
+                <h4>3. 初始化列表 vs 大括號賦值</h4>
+                <p>在建構子中使用 <code>: name(bookName)</code> 屬於<b>初始化階段</b>，直接在分配記憶體時放入數值（1 次複製）。若在大括號內寫 <code>this->name = bookName;</code>，會先觸發預設建構子產生空物件，再執行賦值（2 次記憶體開銷）。</p>
+            </div>
+
+            <div class="detail-box">
+                <h4>4. std::sort 比較邏輯與 (a, b) 參數</h4>
+                <p><code>std::sort</code> 排序時會將元素兩兩抽出比對。Lambda 回傳的 <code>bool</code> 值代表「<b>第一個參數 (a) 是否應該排在第二個參數 (b) 的前面</b>」：</p>
+                <ul>
+                    <li><code>a.getID() &lt; b.getID()</code>：當 a 比 b 小回傳 true 放在前面 &rarr; <b>升冪排序 (由小到大)</b></li>
+                    <li><code>a.getID() &gt; b.getID()</code>：當 a 比 b 大回傳 true 放在前面 &rarr; <b>降冪排序 (由大到小)</b></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 5: OOP Comparison Table -->
+        <section id="oop-concepts">
+            <h2>💡 5. C vs C++ OOP 對照表</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>概念</th>
+                        <th>C 語言做法</th>
+                        <th>C++ 物件導向做法</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>資料封裝</strong></td>
+                        <td><code>struct</code> 成員全公開，外部可自由修改</td>
+                        <td>使用 <code>private</code> 保護成員，僅透過 Getter 存取</td>
+                    </tr>
+                    <tr>
+                        <td><strong>初始化</strong></td>
+                        <td>手動呼叫 <code>init(&b)</code>，忘記會讀到垃圾值</td>
+                        <td><strong>建構子</strong> 自動觸發，確保誕生時資料有效</td>
+                    </tr>
+                    <tr>
+                        <td><strong>資源回收</strong></td>
+                        <td>手動 <code>free()</code>，容易記憶體洩漏</td>
+                        <td><strong>解構子</strong> (RAII) 在離開作用域時自動回收</td>
+                    </tr>
+                    <tr>
+                        <td><strong>動態陣列</strong></td>
+                        <td>手動 <code>malloc()</code> + <code>realloc()</code> 管理長度</td>
+                        <td>使用 <code>std::vector</code>，自動伸縮記憶體並維護生命週期</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section 6: Interactive QA -->
+        <section id="interactive-qa">
+            <h2>❓ 6. 互動式 QA 知識庫 (可在網站內新增與回覆)</h2>
+            <p style="color: var(--text-muted); margin-bottom: 16px;">你可以在此搜尋、新增提問，或對任何問題寫下解答與筆記回覆！</p>
+
+            <input type="text" id="qaSearch" class="search-box" placeholder="🔍 搜尋問題或關鍵字 (例如：std, git, sort, nodiscard)..." oninput="filterQA()">
+
+            <!-- QA Form -->
+            <form onsubmit="addQuestion(event)" style="background: #f8fafc; padding: 18px; border-radius: 10px; border: 1px solid var(--border-color); margin-bottom: 20px;">
+                <h4 style="margin-bottom: 12px; color: var(--primary-color);">➕ 新增提問 / QA</h4>
+                <div class="form-group">
+                    <input type="text" id="newQaTitle" placeholder="輸入問題標題 (例：為什麼 git status 看到的檔案是紅色的？)" required>
+                </div>
+                <div class="form-group">
+                    <textarea id="newQaContent" placeholder="輸入問題的詳細補充描述 (選填)..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-green">發布新提問</button>
+            </form>
+
+            <div id="qaList"></div>
+        </section>
+
+        <!-- Section 7: User Notes (Optimized UI) -->
+        <section id="user-notes">
+            <h2>📝 7. 個人優化版備忘錄</h2>
+            <p style="margin-bottom: 16px; color: var(--text-muted);">新增學習心得或觀念筆記，資料會<b>自動保存在瀏覽器本地端 (LocalStorage)</b>：</p>
+
+            <!-- Tag Filter Bar -->
+            <div class="note-filter-bar">
+                <button class="filter-btn active" onclick="filterNotes('all', this)">全部筆記</button>
+                <button class="filter-btn" onclick="filterNotes('oop', this)">C++ / OOP</button>
+                <button class="filter-btn" onclick="filterNotes('git', this)">Git / Terminal</button>
+                <button class="filter-btn" onclick="filterNotes('thought', this)">課堂心得</button>
+                <button class="filter-btn" onclick="filterNotes('todo', this)">待辦備忘</button>
+            </div>
+
+            <!-- New Note Form -->
+            <form onsubmit="addNote(event)" style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 24px;">
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 12px;">
+                    <div class="form-group">
+                        <label>筆記標題</label>
+                        <input type="text" id="noteTitle" placeholder="例：C++ Lambda 捕獲列表與 Git 分支" required>
+                    </div>
+                    <div class="form-group">
+                        <label>分類標籤</label>
+                        <select id="noteCategory">
+                            <option value="oop">C++ / OOP</option>
+                            <option value="git">Git / Terminal</option>
+                            <option value="thought">課堂心得</option>
+                            <option value="todo">待辦備忘</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>詳細內容</label>
+                    <textarea id="noteContent" placeholder="輸入詳細筆記、程式碼實驗結果或疑問..." required></textarea>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" class="btn">新增筆記</button>
+                    <button type="button" class="btn btn-secondary" onclick="exportNotes()">匯出完整 JSON 備份</button>
+                </div>
+            </form>
+
+            <div id="noteList" class="note-list"></div>
+        </section>
+    </main>
+
+    <!-- Modal for Adding New Code Files -->
+    <div id="addCodeModal" class="modal">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 16px; color: var(--primary-color);">➕ 匯入 / 新增程式碼檔案</h3>
+            <form onsubmit="saveNewCodeFile(event)">
+                <div class="form-group">
+                    <label>檔案名稱 (含副檔名)</label>
+                    <input type="text" id="newFileName" placeholder="例如：include/BookSection.hpp" required>
+                </div>
+                <div class="form-group">
+                    <label>程式碼內容</label>
+                    <textarea id="newFileCode" style="min-height: 180px; font-family: monospace;" placeholder="在此貼上 C++ 程式碼..." required></textarea>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddCodeModal()">取消</button>
+                    <button type="submit" class="btn btn-green">儲存檔案</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 引入 Prism.js 腳本 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+
+    <script>
+        /* --- 動態程式碼檔案庫系統 --- */
+        const CODE_STORAGE_KEY = 'cpp_oop_code_files_v1';
+
+        const defaultCodeFiles = [
+            {
+                id: 'book-hpp',
+                title: 'Book.hpp',
+                path: 'include/Book.hpp',
+                code: `#ifndef BOOK_HPP\n#define BOOK_HPP\n\n#include <string>\n\nenum class BookCategory : int {\n    GENERAL = 0, PHILOSOPHY = 100, RELIGION = 200, SCIENCE = 300,\n    APPLIED_SCIENCE = 400, SOCIAL_SCIENCE = 500, HISTORY_GEOGRAPHY_CHINA = 600,\n    HISTORY_GEOGRAPHY_WORLD = 700, LANGUAGE_LITERATURE = 800, ARTS = 900\n};\n\nclass Book {\npublic:\n    Book(std::string bookName, int bookID);\n    Book(std::string bookName, int bookID, std::string bookAuthor, BookCategory category);\n\n    [[nodiscard]] std::string getName() const;\n    [[nodiscard]] int getID() const;\n    [[nodiscard]] std::string getAuthor() const;\n    [[nodiscard]] BookCategory getCategory() const;\n\nprivate:\n    std::string name;\n    int id;\n    std::string author;\n    BookCategory category;\n};\n\n#endif`
+            },
+            {
+                id: 'book-cpp',
+                title: 'Book.cpp',
+                path: 'src/Book.cpp',
+                code: `#include "Book.hpp"\n\nBook::Book(std::string bookName, int bookID)\n    : name(bookName), id(bookID), author("Unknown"), category(BookCategory::GENERAL) {}\n\nBook::Book(std::string bookName, int bookID, std::string bookAuthor, BookCategory category)\n    : name(bookName), id(bookID), author(bookAuthor), category(category) {}\n\nstd::string Book::getName() const { return name; }\nint Book::getID() const { return id; }\nstd::string Book::getAuthor() const { return author; }\nBookCategory Book::getCategory() const { return category; }`
+            },
+            {
+                id: 'bookshelf-hpp',
+                title: 'BookShelf.hpp',
+                path: 'include/BookShelf.hpp',
+                code: `#ifndef BOOK_SHELF_HPP\n#define BOOK_SHELF_HPP\n\n#include "Book.hpp"\n#include <vector>\n\nclass BookShelf {\npublic:\n    BookShelf(BookCategory category);\n    BookShelf(BookCategory category, int bookCapacity);\n\n    void setIDRange(int minID, int maxID);\n    void addBook(Book book);\n    void remove(int bookID);\n\n    [[nodiscard]] Book searchByBookID(int bookID);\n    [[nodiscard]] Book searchByBookName(std::string bookName);\n    [[nodiscard]] std::vector<Book> getBooks() const;\n    [[nodiscard]] BookCategory getCategory() const;\n    [[nodiscard]] int getCapacity() const;\n\nprivate:\n    int bookCapacity;\n    int minID = 0;\n    int maxID = 999;\n    std::vector<Book> books;\n    BookCategory category;\n};\n\n#endif`
+            },
+            {
+                id: 'bookshelf-cpp',
+                title: 'BookShelf.cpp',
+                path: 'src/BookShelf.cpp',
+                code: `#include "BookShelf.hpp"\n#include <stdexcept>\n#include <algorithm>\n\nBookShelf::BookShelf(BookCategory category)\n    : category(category), bookCapacity(1000), minID(0), maxID(999) {}\n\nBookShelf::BookShelf(BookCategory category, int bookCapacity)\n    : category(category), bookCapacity(bookCapacity), minID(0), maxID(999) {}\n\nvoid BookShelf::setIDRange(int minID, int maxID) {\n    if (minID > maxID) throw std::invalid_argument("minID cannot exceed maxID");\n    if ((maxID - minID + 1) > bookCapacity) throw std::invalid_argument("ID range exceeds book capacity");\n    this->minID = minID;\n    this->maxID = maxID;\n}\n\nvoid BookShelf::addBook(Book book) {\n    if (static_cast<int>(books.size()) >= bookCapacity) throw std::overflow_error("BookShelf capacity full");\n    if (book.getCategory() != category) throw std::invalid_argument("Book category mismatch");\n    if (book.getID() < minID || book.getID() > maxID) throw std::invalid_argument("Book ID out of allowed range");\n    for (const auto& b : books) {\n        if (b.getID() == book.getID()) throw std::invalid_argument("Duplicate book ID");\n    }\n\n    books.push_back(book);\n\n    std::sort(books.begin(), books.end(), [](const Book& a, const Book& b) {\n        return a.getID() < b.getID();\n    });\n}\n\nvoid BookShelf::remove(int bookID) {\n    auto it = std::find_if(books.begin(), books.end(), [bookID](const Book& b) {\n        return b.getID() == bookID;\n    });\n    if (it == books.end()) throw std::invalid_argument("Book ID not found");\n    books.erase(it);\n}\n\nBook BookShelf::searchByBookID(int bookID) {\n    for (const auto& b : books) if (b.getID() == bookID) return b;\n    throw std::invalid_argument("Book ID not found");\n}\n\nBook BookShelf::searchByBookName(std::string bookName) {\n    for (const auto& b : books) if (b.getName() == bookName) return b;\n    throw std::invalid_argument("Book name not found");\n}\n\nstd::vector<Book> BookShelf::getBooks() const { return books; }\nBookCategory BookShelf::getCategory() const { return category; }\nint BookShelf::getCapacity() const { return bookCapacity; }`
+            }
+        ];
+
+        function loadCodeFiles() {
+            const saved = localStorage.getItem(CODE_STORAGE_KEY);
+            const files = saved ? JSON.parse(saved) : defaultCodeFiles;
+            renderCodeTabs(files);
+        }
+
+        function renderCodeTabs(files) {
+            const tabMenu = document.getElementById('codeTabMenu');
+            const displayArea = document.getElementById('codeDisplayArea');
+            tabMenu.innerHTML = '';
+            displayArea.innerHTML = '';
+
+            files.forEach((file, index) => {
+                // Render Tab Button
+                const btn = document.createElement('button');
+                btn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
+                btn.innerText = file.title;
+                btn.onclick = () => switchCodeTab(file.id, btn);
+                tabMenu.appendChild(btn);
+
+                // Render Code Content Container
+                const container = document.createElement('div');
+                container.id = `code-file-${file.id}`;
+                container.className = 'code-container';
+                container.style.display = index === 0 ? 'block' : 'none';
+
+                container.innerHTML = `
+                    <div class="code-header">
+                        <span>${escapeHTML(file.path)}</span>
+                        <button class="copy-btn" onclick="copyCode(this)">複製程式碼</button>
+                    </div>
+                    <pre><code class="language-cpp">${escapeHTML(file.code)}</code></pre>
+                `;
+                displayArea.appendChild(container);
+            });
+
+            if (window.Prism) Prism.highlightAll();
+        }
+
+        function switchCodeTab(id, btn) {
+            document.querySelectorAll('#codeDisplayArea .code-container').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('#codeTabMenu .tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(`code-file-${id}`).style.display = 'block';
+            btn.classList.add('active');
+        }
+
+        function openAddCodeModal() { document.getElementById('addCodeModal').style.display = 'flex'; }
+        function closeAddCodeModal() { document.getElementById('addCodeModal').style.display = 'none'; }
+
+        function saveNewCodeFile(event) {
+            event.preventDefault();
+            const fileName = document.getElementById('newFileName').value.trim();
+            const fileCode = document.getElementById('newFileCode').value.trim();
+            if (!fileName || !fileCode) return;
+
+            const saved = localStorage.getItem(CODE_STORAGE_KEY);
+            const files = saved ? JSON.parse(saved) : defaultCodeFiles;
+
+            const fileId = 'custom-' + Date.now();
+            files.push({
+                id: fileId,
+                title: fileName.split('/').pop(),
+                path: fileName,
+                code: fileCode
+            });
+
+            localStorage.setItem(CODE_STORAGE_KEY, JSON.stringify(files));
+            renderCodeTabs(files);
+            closeAddCodeModal();
+            document.getElementById('newFileName').value = '';
+            document.getElementById('newFileCode').value = '';
+        }
+
+        function copyCode(button) {
+            const code = button.parentElement.nextElementSibling.innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                button.innerText = '已複製！';
+                setTimeout(() => button.innerText = '複製程式碼', 2000);
+            });
+        }
+
+        /* --- 互動式 QA 系統 --- */
+        const QA_KEY = 'cpp_oop_qa_list_v3';
+        const defaultQAs = [
+            {
+                id: 1,
+                title: "Q: git status 顯示的紅色與綠色字體代表什麼意思？",
+                content: "在 MINGW64 / Git Bash 終端機執行 git status 時，字體顏色代表檔案在版本控制中的狀態。",
+                replies: [
+                    { id: 101, author: "助教/筆記員", text: "🔴 紅色：代表檔案在「工作區」被修改過，或是新建立的檔案，尚未執行 git add 入暫存區。\n🟢 綠色：代表檔案已經執行 git add，成功進入「暫存區」，等待執行 git commit 打包記錄！", date: "2026/10/27" }
+                ]
+            },
+            {
+                id: 2,
+                title: "Q: std::sort 裡的 Lambda (a, b) 寫 a.getID() > b.getID() 會怎樣？",
+                content: "std::sort 內建演算法在兩兩比較元素時，需要判斷第一個參數 (a) 是否應擺在第二個參數 (b) 的前面。",
+                replies: [
+                    { id: 102, author: "筆記員", text: "寫 > 符號時：當 a 比 b 大會回傳 true，代表數字大的要放在前面，因此排序結果會變成「由大到小 (降冪排序 Descending Order)」。", date: "2026/10/27" }
+                ]
+            }
+        ];
+
+        function loadQA() {
+            const saved = localStorage.getItem(QA_KEY);
+            const qaList = saved ? JSON.parse(saved) : defaultQAs;
+            renderQA(qaList);
+        }
+
+        function renderQA(qaList) {
+            const container = document.getElementById('qaList');
+            container.innerHTML = '';
+            qaList.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'qa-card';
+                card.id = `qa-item-${item.id}`;
+
+                let repliesHTML = (item.replies && item.replies.length > 0)
+                    ? item.replies.map(r => `
+                        <div class="reply-item">
+                            <div class="reply-meta">👤 ${escapeHTML(r.author)} • 🕒 ${r.date}</div>
+                            <div>${escapeHTML(r.text).replace(/\n/g, '<br>')}</div>
+                        </div>`).join('')
+                    : '<div style="color: var(--text-muted); font-size: 0.85rem;">目前尚無回覆，成為第一個回答的人吧！</div>';
+
+                card.innerHTML = `
+                    <div class="qa-header" onclick="toggleQA(${item.id})">
+                        <span>${escapeHTML(item.title)}</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="qa-body">
+                        <p style="margin-bottom: 10px; color: var(--text-muted);">${escapeHTML(item.content)}</p>
+                        <div class="replies-list">
+                            <h5 style="margin-bottom: 8px; color: var(--primary-color);">💬 討論與解答 (${item.replies ? item.replies.length : 0})</h5>
+                            ${repliesHTML}
+                            <form class="reply-form" onsubmit="addReply(event, ${item.id})">
+                                <input type="text" id="replyAuthor-${item.id}" placeholder="你的稱呼" style="width: 130px;" required>
+                                <input type="text" id="replyText-${item.id}" placeholder="撰寫回答或註解..." style="flex-grow:1;" required>
+                                <button type="submit" class="btn">回覆</button>
+                            </form>
+                        </div>
+                    </div>`;
+                container.appendChild(card);
+            });
+        }
+
+        function toggleQA(id) { document.getElementById(`qa-item-${id}`).classList.toggle('active'); }
+        function filterQA() {
+            const query = document.getElementById('qaSearch').value.toLowerCase();
+            document.querySelectorAll('.qa-card').forEach(card => {
+                card.style.display = card.innerText.toLowerCase().includes(query) ? 'block' : 'none';
+            });
+        }
+
+        function addQuestion(event) {
+            event.preventDefault();
+            const title = document.getElementById('newQaTitle').value.trim();
+            const content = document.getElementById('newQaContent').value.trim();
+            if (!title) return;
+
+            const saved = localStorage.getItem(QA_KEY);
+            const qaList = saved ? JSON.parse(saved) : defaultQAs;
+            const newQa = { id: Date.now(), title: title.startsWith('Q:') ? title : `Q: ${title}`, content: content || "點擊下方填寫此問題的詳細解答...", replies: [] };
+            qaList.unshift(newQa);
+
+            localStorage.setItem(QA_KEY, JSON.stringify(qaList));
+            document.getElementById('newQaTitle').value = '';
+            document.getElementById('newQaContent').value = '';
+            renderQA(qaList);
+            toggleQA(newQa.id);
+        }
+
+        function addReply(event, qaId) {
+            event.preventDefault();
+            const author = document.getElementById(`replyAuthor-${qaId}`).value.trim();
+            const text = document.getElementById(`replyText-${qaId}`).value.trim();
+            if (!author || !text) return;
+
+            const saved = localStorage.getItem(QA_KEY);
+            let qaList = saved ? JSON.parse(saved) : defaultQAs;
+            const target = qaList.find(q => q.id === qaId);
+
+            if (target) {
+                if (!target.replies) target.replies = [];
+                target.replies.push({ id: Date.now(), author, text, date: new Date().toLocaleDateString() });
+                localStorage.setItem(QA_KEY, JSON.stringify(qaList));
+                renderQA(qaList);
+                document.getElementById(`qa-item-${qaId}`).classList.add('active');
+            }
+        }
+
+        /* --- 優化版備忘錄系統 --- */
+        const NOTES_KEY = 'cpp_oop_learning_notes_v3';
+        let currentFilter = 'all';
+
+        const defaultNotes = [
+            {
+                id: 1,
+                title: "Git add & commit 控制流程",
+                category: "git",
+                content: "1. git status 檢查修改\n2. git add . 送進暫存區\n3. git commit -m '註解' 歸檔版本",
+                date: "2026/10/27 15:30"
+            },
+            {
+                id: 2,
+                title: "C++ Lambda 升降冪秘訣",
+                category: "oop",
+                content: "std::sort 傳入 (a, b):\na.getID() < b.getID() 為升冪 (小到大)\na.getID() > b.getID() 為降冪 (大到小)",
+                date: "2026/10/27 16:20"
+            }
+        ];
+
+        function loadNotes() {
+            const saved = localStorage.getItem(NOTES_KEY);
+            const notes = saved ? JSON.parse(saved) : defaultNotes;
+            renderNotes(notes);
+        }
+
+        function renderNotes(notes) {
+            const container = document.getElementById('noteList');
+            container.innerHTML = '';
+
+            const filtered = currentFilter === 'all' ? notes : notes.filter(n => n.category === currentFilter);
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div style="grid-column: 1/-1; color: var(--text-muted); text-align: center; padding: 20px;">尚無此分類的備忘筆記。</div>';
+                return;
+            }
+
+            filtered.forEach(note => {
+                const card = document.createElement('div');
+                card.className = 'note-card';
+
+                const tagClassMap = { oop: 'tag-oop', git: 'tag-git', thought: 'tag-thought', todo: 'tag-todo' };
+                const tagLabelMap = { oop: 'C++ / OOP', git: 'Git / Terminal', thought: '課堂心得', todo: '待辦備忘' };
+
+                card.innerHTML = `
+                    <div>
+                        <span class="note-tag ${tagClassMap[note.category] || 'tag-oop'}">${tagLabelMap[note.category] || '筆記'}</span>
+                        <div class="note-card-title">${escapeHTML(note.title)}</div>
+                        <div class="note-card-date">🕒 ${note.date}</div>
+                        <div class="note-card-body">${escapeHTML(note.content)}</div>
+                    </div>
+                    <div class="note-card-footer">
+                        <button class="delete-btn" onclick="deleteNote(${note.id})">刪除筆記</button>
+                    </div>`;
+                container.appendChild(card);
+            });
+        }
+
+        function addNote(event) {
+            event.preventDefault();
+            const title = document.getElementById('noteTitle').value.trim();
+            const category = document.getElementById('noteCategory').value;
+            const content = document.getElementById('noteContent').value.trim();
+            if (!title || !content) return;
+
+            const saved = localStorage.getItem(NOTES_KEY);
+            const notes = saved ? JSON.parse(saved) : defaultNotes;
+
+            notes.unshift({ id: Date.now(), title, category, content, date: new Date().toLocaleString() });
+            localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+
+            document.getElementById('noteTitle').value = '';
+            document.getElementById('noteContent').value = '';
+            renderNotes(notes);
+        }
+
+        function filterNotes(category, btn) {
+            currentFilter = category;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            loadNotes();
+        }
+
+        function deleteNote(id) {
+            if (!confirm('確定刪除此筆記？')) return;
+            const saved = localStorage.getItem(NOTES_KEY);
+            if (!saved) return;
+            let notes = JSON.parse(saved).filter(n => n.id !== id);
+            localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+            renderNotes(notes);
+        }
+
+        function exportNotes() {
+            const savedNotes = localStorage.getItem(NOTES_KEY);
+            const savedQA = localStorage.getItem(QA_KEY);
+            const savedCode = localStorage.getItem(CODE_STORAGE_KEY);
+
+            const backupData = {
+                notes: savedNotes ? JSON.parse(savedNotes) : [],
+                qa: savedQA ? JSON.parse(savedQA) : [],
+                codeFiles: savedCode ? JSON.parse(savedCode) : []
+            };
+
+            const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `oop_website_backup_${Date.now()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
+        }
+
+        window.onload = function() {
+            loadCodeFiles();
+            loadQA();
+            loadNotes();
+        };
+    </script>
+</body>
+</html>
