@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OOP 學習網站 - 雲端同步與完整教學版</title>
+    <title>CS 綜合學習網站 - OOP, Git & 雲端協作中心</title>
     <!-- 引入 Prism.js 程式碼高亮主題 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
     <style>
@@ -17,6 +17,7 @@
             --border-color: #e2e8f0;
             --accent-green: #10b981;
             --accent-purple: #8b5cf6;
+            --accent-amber: #f59e0b;
             --accent-red: #ef4444;
         }
 
@@ -33,7 +34,7 @@
 
         /* 側邊欄導覽 */
         .sidebar {
-            width: 280px;
+            width: 290px;
             background-color: var(--card-bg);
             border-right: 1px solid var(--border-color);
             padding: 24px 18px;
@@ -45,7 +46,7 @@
         }
 
         .sidebar h2 {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             margin-bottom: 20px;
             color: var(--primary-color);
             display: flex;
@@ -102,6 +103,22 @@
             font-weight: 600;
             margin-bottom: 12px;
         }
+
+        /* 跨學科標籤 */
+        .subject-pills {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .pill {
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+        .pill-active { background: var(--primary-color); color: white; }
+        .pill-future { background: #e2e8f0; color: #64748b; cursor: not-allowed; }
 
         section {
             background: var(--card-bg);
@@ -185,7 +202,7 @@
             border-bottom-right-radius: 10px !important;
         }
 
-        /* 觀念說明與 Git 指令卡片 */
+        /* 指令與說明卡片 */
         .detail-box {
             background-color: #f8fafc;
             border-left: 4px solid var(--primary-color);
@@ -198,6 +215,7 @@
             border-left-width: 4px;
         }
         .detail-box.git-box { border-left-color: var(--accent-green); background-color: #f0fdf4; }
+        .detail-box.co-box { border-left-color: var(--accent-purple); background-color: #f3e8ff; }
         .detail-box h4 { margin-bottom: 8px; color: var(--text-color); font-size: 1.05rem; }
 
         .cmd-grid {
@@ -240,7 +258,7 @@
             background: #f8fafc;
         }
 
-        /* QA 區塊 */
+        /* QA 卡片 */
         .qa-card {
             border: 1px solid var(--border-color);
             border-radius: 10px;
@@ -265,43 +283,13 @@
         }
         .qa-card.active .qa-body { display: block; }
 
-        .reply-item {
-            background: #f8fafc;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 12px 16px;
-            margin-bottom: 10px;
-        }
-        .reply-meta { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px; }
-
-        /* 備忘錄卡片 UI */
-        .note-filter-bar {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-        }
-        .filter-btn {
-            background: #e2e8f0;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-        .filter-btn.active {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .note-list {
+        /* 同伴留言區與待辦卡片 */
+        .card-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 16px;
         }
-        .note-card {
+        .custom-card {
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 20px;
@@ -311,7 +299,7 @@
             flex-direction: column;
             justify-content: space-between;
         }
-        .note-tag {
+        .card-tag {
             display: inline-block;
             padding: 3px 10px;
             border-radius: 12px;
@@ -322,12 +310,23 @@
         }
         .tag-oop { background-color: #dbeafe; color: #1e40af; }
         .tag-git { background-color: #dcfce7; color: #166534; }
-        .tag-thought { background-color: #fef3c7; color: #92400e; }
-        .tag-todo { background-color: #f3e8ff; color: #6b21a8; }
+        .tag-co { background-color: #f3e8ff; color: #6b21a8; }
+        .tag-chat { background-color: #fef3c7; color: #92400e; }
 
-        .note-card-title { font-size: 1.05rem; font-weight: 700; color: var(--text-color); margin-bottom: 6px; }
-        .note-card-date { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px; }
-        .note-card-body { font-size: 0.92rem; white-space: pre-wrap; color: #334155; line-height: 1.6; flex-grow: 1; }
+        .card-title { font-size: 1.05rem; font-weight: 700; color: var(--text-color); margin-bottom: 6px; }
+        .card-date { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px; }
+        .card-body { font-size: 0.92rem; white-space: pre-wrap; color: #334155; line-height: 1.6; flex-grow: 1; }
+
+        /* 行程表 Table UI */
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .schedule-table th { background: #f1f5f9; text-align: left; padding: 12px; }
+        .schedule-table td { padding: 12px; border-bottom: 1px solid var(--border-color); }
+        .status-pending { color: #d97706; font-weight: 600; }
+        .status-done { color: #059669; font-weight: 600; text-decoration: line-through; }
 
         .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
         .form-group label { font-size: 0.9rem; font-weight: 600; color: var(--text-color); }
@@ -352,6 +351,7 @@
             font-size: 0.9rem;
         }
         .btn-green { background-color: var(--accent-green); }
+        .btn-purple { background-color: var(--accent-purple); }
         .btn-secondary { background-color: #64748b; }
 
         .delete-btn {
@@ -389,51 +389,124 @@
             body { flex-direction: column; }
             .sidebar { width: 100%; height: auto; position: relative; }
             .main-content { padding: 20px; }
-            .note-list { grid-template-columns: 1fr; }
+            .card-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
     <nav class="sidebar">
-        <h2>📚 OOP 學習網站</h2>
+        <h2>💻 CS 學習網站</h2>
         <ul>
             <li><a href="#overview">1. 專案系統架構</a></li>
-            <li><a href="#git-section">2. Git & CMD 實用指令寶典</a></li>
-            <li><a href="#code-section">3. 程式碼檔案庫 (可擴充/刪除)</a></li>
-            <li><a href="#deep-details">4. 高階 OOP 與記憶體解析</a></li>
-            <li><a href="#oop-concepts">5. C vs C++ OOP 對照表</a></li>
-            <li><a href="#interactive-qa">6. 互動式 QA 知識庫</a></li>
-            <li><a href="#user-notes">7. 雲端即時同步備忘錄</a></li>
+            <li><a href="#schedule-section">2. 📅 學習行程與待辦事項</a></li>
+            <li><a href="#discussion-section">3. 💬 同伴互動留言區</a></li>
+            <li><a href="#git-section">4. Git & CMD 指令寶典</a></li>
+            <li><a href="#code-section">5. 程式碼檔案庫 (可擴充/刪除)</a></li>
+            <li><a href="#deep-details">6. 高階 OOP 與微架構解析</a></li>
+            <li><a href="#oop-concepts">7. C vs C++ OOP 對照表</a></li>
+            <li><a href="#interactive-qa">8. 互動式 QA 知識庫</a></li>
+            <li><a href="#user-notes">9. 雲端同步學習備忘錄</a></li>
         </ul>
     </nav>
 
     <main class="main-content">
         <header>
-            <h1>OOP 學習網站</h1>
-            <div class="status-badge">🟢 Firebase 雲端資料庫已連線 (即時同步 + 密碼防護)</div>
-            <p>融合 C++ 物件導向架構、Git 版本控制語法、記憶體原理與好友雲端即時同步筆記庫。</p>
+            <h1>CS 計算機科學學習網</h1>
+            <div class="status-badge">🟢 Firebase 雲端即時同步 (含同伴留言區 + 待辦行程表)</div>
+            <p>專為 C++ 物件導向、Git 版本控制與資訊工程核心科目（預備：計算機組織）打造的綜合學習中心。</p>
+            <div class="subject-pills">
+                <span class="pill pill-active">📘 C++ OOP</span>
+                <span class="pill pill-active">🌿 Git 控制</span>
+                <span class="pill pill-future">🖥️ 計算機組織 (未來擴充)</span>
+                <span class="pill pill-future">⚙️ 作業系統 (未來擴充)</span>
+            </div>
         </header>
 
         <!-- Section 1: Overview -->
         <section id="overview">
-            <h2>📌 1. 專案系統架構[cite: 1]</h2>
-            <p>本專案實作三層階層架構：[cite: 1]</p>
+            <h2>📌 1. 專案系統架構</h2>
+            <p>本專案實作三層階層架構：</p>
             <ul style="margin-left: 20px; margin-top: 10px;">
-                <li><strong>Book（書籍）</strong>：基礎資料單元，儲存書名、ID、作者與分類。[cite: 1]</li>
-                <li><strong>BookShelf（書櫃）</strong>：容器管理者，儲存同分類書籍，具備 ID 區間驗證與升冪排序。[cite: 1]</li>
-                <li><strong>BookSection（圖書分區）</strong>：頂層容器，管理複數個書櫃並提供分區搜尋能力。[cite: 1]</li>
+                <li><strong>Book（書籍）</strong>：基礎資料單元，儲存書名、ID、作者與分類。</li>
+                <li><strong>BookShelf（書櫃）</strong>：容器管理者，儲存同分類書籍，具備 ID 區間驗證與升冪排序。</li>
+                <li><strong>BookSection（圖書分區）</strong>：頂層容器，管理複數個書櫃並提供分區搜尋能力。</li>
             </ul>
         </section>
 
-        <!-- Section 2: Git Section -->
+        <!-- Section 2: Schedule & To-Do Planner -->
+        <section id="schedule-section">
+            <h2>📅 2. 學習行程與待辦事項 (Schedule & To-Do)</h2>
+            <p style="color: var(--text-muted); margin-bottom: 16px;">安排學習里程碑、作業繳交期限或複習計畫，雲端同步讓夥伴互相提醒進度：</p>
+
+            <form id="scheduleForm" style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 20px;">
+                <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 12px;">
+                    <div class="form-group">
+                        <label>待辦事項 / 里程碑名稱</label>
+                        <input type="text" id="taskTitle" placeholder="例：完成 BookShelf.cpp 升冪測試與 commit" required>
+                    </div>
+                    <div class="form-group">
+                        <label>所屬科目</label>
+                        <select id="taskSubject">
+                            <option value="C++ OOP">C++ OOP</option>
+                            <option value="Git 版本控制">Git 版本控制</option>
+                            <option value="計算機組織">計算機組織</option>
+                            <option value="通識 / 其他">通識 / 其他</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>預計完成日期</label>
+                        <input type="date" id="taskDueDate" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-purple">➕ 新增行程待辦</button>
+            </form>
+
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th>狀態</th>
+                        <th>科目</th>
+                        <th>待辦事項</th>
+                        <th>預計完成日</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="scheduleTableBody">
+                    <!-- Dynamic rendering -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section 3: Dedicated Discussion Board -->
+        <section id="discussion-section">
+            <h2>💬 3. 同伴互動留言區 (Collaborative Board)</h2>
+            <p style="color: var(--text-muted); margin-bottom: 16px;">專為學習夥伴打造的公開討論角！可以在這裡打招呼、互相討論作業 Bug 或分享優質文章：</p>
+
+            <form id="chatForm" style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 24px;">
+                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 12px;">
+                    <div class="form-group">
+                        <label>你的稱呼 / 夥伴姓名</label>
+                        <input type="text" id="chatAuthor" placeholder="例：小明 / 共同學習者" required>
+                    </div>
+                    <div class="form-group">
+                        <label>留言內容</label>
+                        <input type="text" id="chatMessage" placeholder="寫下想跟大家說的話或討論點..." required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-green">💬 發布同伴留言</button>
+            </form>
+
+            <div id="chatList" class="card-grid"></div>
+        </section>
+
+        <!-- Section 4: Git Section -->
         <section id="git-section">
-            <h2>🌿 2. Git (MINGW64) & Terminal 實用指令寶典</h2>
+            <h2>🌿 4. Git (MINGW64) & Terminal 實用指令寶典</h2>
             <div class="detail-box git-box">
                 <h4>🎓 課堂重點：Git 控制版本的三大核心區域觀念</h4>
                 <p>1. <b>工作區 (Working Directory)</b>：實際編輯檔案處。 2. <b>暫存區 (Staging Area)</b>：<code>git add</code> 準備檔案處。 3. <b>儲存區 (Repository)</b>：<code>git commit</code> 正式打包紀錄處。</p>
             </div>
-            <h3>建構與版本提交指令：</h3>
             <div class="cmd-grid">
                 <div class="cmd-card">
                     <span class="cmd-code">git init</span>
@@ -452,51 +525,51 @@
                     <p>將暫存區內容正式提交成版本，並附上說明訊息。</p>
                 </div>
             </div>
-            <h3 style="margin-top: 25px;">歷史、重置與分支管理指令：</h3>
+            <h3 style="margin-top: 25px;">進階分支與遠端協作指令：</h3>
             <div class="cmd-grid">
                 <div class="cmd-card">
-                    <span class="cmd-code">git log --oneline</span>
-                    <p>精簡顯示過往所有的 commit 歷史紀錄與 ID 前 7 碼。</p>
+                    <span class="cmd-code">git pull origin main</span>
+                    <p>將遠端 GitHub 上的最新程式碼拉取下載並自動合併至本地。</p>
                 </div>
                 <div class="cmd-card">
-                    <span class="cmd-code">git diff</span>
-                    <p>比較「工作區」與「暫存區」之間程式碼的詳細修改差異。</p>
+                    <span class="cmd-code">git fetch</span>
+                    <p>查看遠端庫有哪些新更新，但先不自動合併進本地檔案。</p>
                 </div>
                 <div class="cmd-card">
-                    <span class="cmd-code">git switch -c &lt;分支名&gt;</span>
-                    <p>建立並切換至新開發分支，實現獨立功能開發。</p>
+                    <span class="cmd-code">git switch -c feature-branch</span>
+                    <p>建立獨立的開發分支，避免直接影響主線 main 程式碼。</p>
                 </div>
                 <div class="cmd-card">
-                    <span class="cmd-code">git push origin main</span>
-                    <p>推送本地儲存區程式碼覆蓋至 GitHub 遠端儲存庫。</p>
+                    <span class="cmd-code">git stash / git stash pop</span>
+                    <p>暫存未完成的修改，切換分支修復緊急 Bug 後再還原。</p>
                 </div>
             </div>
         </section>
 
-        <!-- Section 3: Dynamic Code Repository -->
+        <!-- Section 5: Code Repository -->
         <section id="code-section">
             <div class="code-actions">
-                <h2>💻 3. 程式碼檔案庫 (具備動態擴充與刪除功能)</h2>
+                <h2>💻 5. 程式碼檔案庫 (具備動態擴充與刪除功能)</h2>
                 <button class="btn btn-green" onclick="openAddCodeModal()">➕ 新增 / 匯入程式碼檔案</button>
             </div>
-            <p style="color: var(--text-muted); margin-bottom: 14px;">點擊頁籤檢視程式碼[cite: 1]。全 6 份原生檔案均已加上詳細逐行中文註解[cite: 1]，且支援複製與刪除檔頁！</p>
+            <p style="color: var(--text-muted); margin-bottom: 14px;">點擊頁籤切換檢視程式碼。全 6 份原生檔案均已加上詳細逐行中文註解，且支援複製與刪除檔頁！</p>
             <div class="tab-menu" id="codeTabMenu"></div>
             <div id="codeDisplayArea"></div>
         </section>
 
-        <!-- Section 4: Deep OOP Details -->
+        <!-- Section 6: Deep OOP Details -->
         <section id="deep-details">
-            <h2>🔬 4. 高階 OOP 與記憶體細節解析</h2>
+            <h2>🔬 6. 高階 OOP 與微架構解析</h2>
             <div class="detail-box">
-                <h4>1. Stack vs Heap 記憶體配置 (物件生命週期)</h4>
+                <h4>1. Stack vs Heap 記憶體配置 (與計算機組織的對應)</h4>
                 <ul>
-                    <li><code>Book b("C++", 101);</code>：配置於 <b>Stack</b>，離開作用域自動呼叫解構子銷毀。</li>
-                    <li><code>Book* b = new Book("C++", 101);</code>：配置於 <b>Heap</b>，必須手動 <code>delete b;</code> 釋放記憶體。</li>
+                    <li><code>Book b("C++", 101);</code>：配置於 <b>Stack</b>，由 CPU 暫存器 (RSP/RBP) 直接維護位址，離場自動銷毀。</li>
+                    <li><code>Book* b = new Book("C++", 101);</code>：配置於 <b>Heap</b>，屬於 OS 虛擬記憶體區塊，需透過 <code>delete</code> 歸還，否則造成 Memory Leak。</li>
                 </ul>
             </div>
-            <div class="detail-box">
-                <h4>2. RAII (Resource Acquisition Is Initialization)</h4>
-                <p>將資源（動態記憶體）綁定至 Stack 物件生命週期，宣告時獲取資源，離開時自動解構歸還，<code>std::vector&lt;Book&gt;</code> 即完美運用 RAII。</p>
+            <div class="detail-box co-box">
+                <h4>2. 計算機組織預備觀念：C++ 編譯後如何執行？</h4>
+                <p>C++ 原始碼經過 GCC/Clang 編譯器翻譯成 Assembly (組合語言)，最終生成二進位機器碼 (0101)。CPU 的控制單元 (Control Unit) 會從 RAM 擷取指令 (Fetch)，解碼 (Decode) 後丟給算術邏輯單元 (ALU) 執行排序與比對計算。</p>
             </div>
             <div class="detail-box">
                 <h4>3. std::sort 比較邏輯 (a, b)</h4>
@@ -504,9 +577,9 @@
             </div>
         </section>
 
-        <!-- Section 5: OOP Comparison Table -->
+        <!-- Section 7: OOP Comparison Table -->
         <section id="oop-concepts">
-            <h2>💡 5. C vs C++ OOP 對照表</h2>
+            <h2>💡 7. C vs C++ OOP 對照表</h2>
             <table>
                 <thead>
                     <tr>
@@ -540,11 +613,11 @@
             </table>
         </section>
 
-        <!-- Section 6: Interactive QA -->
+        <!-- Section 8: Interactive QA -->
         <section id="interactive-qa">
-            <h2>❓ 6. 互動式 QA 知識庫 (雲端即時同步)</h2>
+            <h2>❓ 8. 互動式 QA 知識庫 (雲端即時同步)</h2>
             <p style="color: var(--text-muted); margin-bottom: 16px;">你可以在此搜尋提問，或對任何問題寫下解答與註解！</p>
-            <input type="text" id="qaSearch" class="search-box" placeholder="🔍 搜尋問題或關鍵字 (例：std, git, sort)..." oninput="filterQA()">
+            <input type="text" id="qaSearch" class="search-box" placeholder="🔍 搜尋問題或關鍵字 (例：std, git, sort, 計算機)..." oninput="filterQA()">
             <form id="qaForm" style="background: #f8fafc; padding: 18px; border-radius: 10px; border: 1px solid var(--border-color); margin-bottom: 20px;">
                 <h4 style="margin-bottom: 12px; color: var(--primary-color);">➕ 新增提問 / QA</h4>
                 <div class="form-group">
@@ -558,9 +631,9 @@
             <div id="qaList"></div>
         </section>
 
-        <!-- Section 7: Cloud Notes -->
+        <!-- Section 9: Cloud Notes -->
         <section id="user-notes">
-            <h2>📝 7. 雲端即時同步備忘錄 (全區共享)</h2>
+            <h2>📝 9. 雲端即時同步學習備忘錄 (全區共享)</h2>
             <p style="margin-bottom: 16px; color: var(--text-muted);">發布的筆記會<b>秒速同步給所有訪客</b>，刪除防護需通過驗證：</p>
 
             <div class="note-filter-bar">
@@ -597,7 +670,7 @@
                 </div>
             </form>
 
-            <div id="noteList" class="note-list"></div>
+            <div id="noteList" class="card-grid"></div>
         </section>
     </main>
 
@@ -629,9 +702,8 @@
     <!-- Firebase SDK v10 (Module) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Firebase 金鑰設定
         const firebaseConfig = {
             apiKey: "AIzaSyDWw7nJhCguObZRJoUvshjkquj1HSegR0Y",
             authDomain: "oopwebsite-3b8b3.firebaseapp.com",
@@ -647,34 +719,29 @@
         
         const notesRef = collection(db, "learning_notes");
         const qaRef = collection(db, "qa_topics");
+        const chatRef = collection(db, "learning_chats");
+        const scheduleRef = collection(db, "learning_schedule");
 
         let currentFilter = 'all';
         let allCloudNotes = [];
 
-        // 1. 雲端監聽：備忘錄即時同步
-        const qNotes = query(notesRef, orderBy("createdAt", "desc"));
-        onSnapshot(qNotes, (snapshot) => {
+        // 1. 雲端監聽：備忘錄
+        onSnapshot(query(notesRef, orderBy("createdAt", "desc")), (snapshot) => {
             allCloudNotes = [];
-            snapshot.forEach((docSnap) => {
-                allCloudNotes.push({ id: docSnap.id, ...docSnap.data() });
-            });
+            snapshot.forEach((docSnap) => allCloudNotes.push({ id: docSnap.id, ...docSnap.data() }));
             renderNotesUI();
         });
 
-        // 2. 雲端監聽：QA 知識庫即時同步
-        const qQA = query(qaRef, orderBy("createdAt", "desc"));
-        onSnapshot(qQA, (snapshot) => {
+        // 2. 雲端監聽：QA 知識庫
+        onSnapshot(query(qaRef, orderBy("createdAt", "desc")), (snapshot) => {
             const container = document.getElementById('qaList');
             container.innerHTML = '';
-
             snapshot.forEach((docSnap) => {
                 const item = docSnap.data();
                 const qid = docSnap.id;
-
                 const card = document.createElement('div');
                 card.className = 'qa-card';
                 card.id = `qa-item-${qid}`;
-
                 card.innerHTML = `
                     <div class="qa-header" onclick="document.getElementById('qa-item-${qid}').classList.toggle('active')">
                         <span>${escapeHTML(item.title)}</span>
@@ -683,49 +750,127 @@
                     <div class="qa-body">
                         <p style="margin-bottom: 10px; color: var(--text-muted);">${escapeHTML(item.content)}</p>
                         <div style="font-size: 0.8rem; color: var(--text-muted);">🕒 ${item.date || '剛剛'}</div>
-                        <button class="delete-btn" onclick="deleteCloudQA('${qid}')">🔒 驗證管理者密碼並刪除</button>
+                        <button class="delete-btn" onclick="deleteCloudDoc('qa_topics', '${qid}')">🔒 驗證密碼並刪除</button>
                     </div>`;
                 container.appendChild(card);
             });
         });
 
-        // 渲染筆記列表與篩選機制
+        // 3. 雲端監聽：同伴留言區
+        onSnapshot(query(chatRef, orderBy("createdAt", "desc")), (snapshot) => {
+            const container = document.getElementById('chatList');
+            container.innerHTML = '';
+            if (snapshot.empty) {
+                container.innerHTML = '<div style="color: var(--text-muted); grid-column:1/-1;">目前還沒有同伴留言，來留第一條訊息吧！</div>';
+                return;
+            }
+            snapshot.forEach((docSnap) => {
+                const item = docSnap.data();
+                const cid = docSnap.id;
+                const card = document.createElement('div');
+                card.className = 'custom-card';
+                card.innerHTML = `
+                    <div>
+                        <span class="card-tag tag-chat">💬 同伴留言</span>
+                        <div class="card-title">${escapeHTML(item.author)}</div>
+                        <div class="card-date">🕒 ${item.date}</div>
+                        <div class="card-body">${escapeHTML(item.message)}</div>
+                    </div>
+                    <button class="delete-btn" onclick="deleteCloudDoc('learning_chats', '${cid}')">🔒 刪除留言</button>`;
+                container.appendChild(card);
+            });
+        });
+
+        // 4. 雲端監聽：行程與待辦事項
+        onSnapshot(query(scheduleRef, orderBy("createdAt", "desc")), (snapshot) => {
+            const tbody = document.getElementById('scheduleTableBody');
+            tbody.innerHTML = '';
+            if (snapshot.empty) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">目前無安排行程待辦。</td></tr>';
+                return;
+            }
+            snapshot.forEach((docSnap) => {
+                const item = docSnap.data();
+                const sid = docSnap.id;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <input type="checkbox" ${item.done ? 'checked' : ''} onchange="toggleTaskDone('${sid}', ${!item.done})">
+                    </td>
+                    <td><b>${escapeHTML(item.subject)}</b></td>
+                    <td class="${item.done ? 'status-done' : ''}">${escapeHTML(item.title)}</td>
+                    <td>${item.dueDate}</td>
+                    <td><button class="delete-btn" style="margin-top:0;" onclick="deleteCloudDoc('learning_schedule', '${sid}')">刪除</button></td>`;
+                tbody.appendChild(tr);
+            });
+        });
+
+        // 發布行程待辦
+        document.getElementById('scheduleForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('taskTitle').value.trim();
+            const subject = document.getElementById('taskSubject').value;
+            const dueDate = document.getElementById('taskDueDate').value;
+            if (!title || !dueDate) return;
+
+            await addDoc(scheduleRef, {
+                title, subject, dueDate, done: false,
+                createdAt: Date.now()
+            });
+            document.getElementById('taskTitle').value = '';
+            document.getElementById('taskDueDate').value = '';
+        });
+
+        // 發布同伴留言
+        document.getElementById('chatForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const author = document.getElementById('chatAuthor').value.trim();
+            const message = document.getElementById('chatMessage').value.trim();
+            if (!author || !message) return;
+
+            await addDoc(chatRef, {
+                author, message,
+                date: new Date().toLocaleString('zh-TW', { hour12: false }),
+                createdAt: Date.now()
+            });
+            document.getElementById('chatMessage').value = '';
+        });
+
+        // 渲染筆記
         window.renderNotesUI = function() {
             const container = document.getElementById('noteList');
             container.innerHTML = '';
 
             const filtered = currentFilter === 'all' ? allCloudNotes : allCloudNotes.filter(n => n.category === currentFilter);
-
             if (filtered.length === 0) {
                 container.innerHTML = '<div style="grid-column: 1/-1; color: var(--text-muted); text-align: center; padding: 20px;">尚無此分類的備忘筆記。</div>';
                 return;
             }
 
-            const tagClassMap = { oop: 'tag-oop', git: 'tag-git', thought: 'tag-thought', todo: 'tag-todo' };
+            const tagClassMap = { oop: 'tag-oop', git: 'tag-git', thought: 'tag-chat', todo: 'tag-co' };
             const tagLabelMap = { oop: 'C++ / OOP', git: 'Git / Terminal', thought: '課堂心得', todo: '待辦備忘' };
 
             filtered.forEach(note => {
                 const card = document.createElement('div');
-                card.className = 'note-card';
+                card.className = 'custom-card';
                 card.innerHTML = `
                     <div>
-                        <span class="note-tag ${tagClassMap[note.category] || 'tag-oop'}">${tagLabelMap[note.category] || '筆記'}</span>
-                        <div class="note-card-title">${escapeHTML(note.title)}</div>
-                        <div class="note-card-date">🕒 ${note.date}</div>
-                        <div class="note-card-body">${escapeHTML(note.content)}</div>
+                        <span class="card-tag ${tagClassMap[note.category] || 'tag-oop'}">${tagLabelMap[note.category] || '筆記'}</span>
+                        <div class="card-title">${escapeHTML(note.title)}</div>
+                        <div class="card-date">🕒 ${note.date}</div>
+                        <div class="card-body">${escapeHTML(note.content)}</div>
                     </div>
-                    <button class="delete-btn" onclick="deleteCloudNote('${note.id}')">🔒 驗證管理者密碼並刪除</button>`;
+                    <button class="delete-btn" onclick="deleteCloudDoc('learning_notes', '${note.id}')">🔒 驗證密碼並刪除</button>`;
                 container.appendChild(card);
             });
         };
 
-        // 發布雲端筆記
+        // 發布筆記
         document.getElementById('cloudNoteForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const title = document.getElementById('noteTitle').value.trim();
             const category = document.getElementById('noteCategory').value;
             const content = document.getElementById('noteContent').value.trim();
-
             if (!title || !content) return;
 
             await addDoc(notesRef, {
@@ -733,17 +878,15 @@
                 date: new Date().toLocaleString('zh-TW', { hour12: false }),
                 createdAt: Date.now()
             });
-
             document.getElementById('noteTitle').value = '';
             document.getElementById('noteContent').value = '';
         });
 
-        // 發布雲端 QA
+        // 發布 QA
         document.getElementById('qaForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const title = document.getElementById('newQaTitle').value.trim();
             const content = document.getElementById('newQaContent').value.trim();
-
             if (!title) return;
 
             await addDoc(qaRef, {
@@ -752,12 +895,10 @@
                 date: new Date().toLocaleString('zh-TW', { hour12: false }),
                 createdAt: Date.now()
             });
-
             document.getElementById('newQaTitle').value = '';
             document.getElementById('newQaContent').value = '';
         });
 
-        // 分類過濾切換
         window.filterNotes = function(category, btn) {
             currentFilter = category;
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -765,40 +906,21 @@
             renderNotesUI();
         };
 
-        // 🔐 刪除筆記密碼驗證
-        window.deleteCloudNote = async (id) => {
+        window.toggleTaskDone = async function(sid, done) {
+            await updateDoc(doc(db, "learning_schedule", sid), { done });
+        };
+
+        // 🔐 通用密碼驗證刪除函式
+        window.deleteCloudDoc = async (collName, id) => {
             const inputPwd = prompt('🔒 請輸入管理者密碼：');
             if (inputPwd === null) return;
             if (inputPwd === '0603') {
-                if (confirm('✅ 驗證成功！確定要從雲端刪除這條筆記嗎？')) {
-                    await deleteDoc(doc(db, "learning_notes", id));
+                if (confirm('✅ 驗證成功！確定要從雲端刪除此項目嗎？')) {
+                    await deleteDoc(doc(db, collName, id));
                 }
             } else {
                 alert('❌ 密碼錯誤！無法刪除。');
             }
-        };
-
-        // 🔐 刪除 QA 密碼驗證
-        window.deleteCloudQA = async (id) => {
-            const inputPwd = prompt('🔒 請輸入管理者密碼：');
-            if (inputPwd === null) return;
-            if (inputPwd === '0603') {
-                if (confirm('✅ 驗證成功！確定要刪除該 QA 提問嗎？')) {
-                    await deleteDoc(doc(db, "qa_topics", id));
-                }
-            } else {
-                alert('❌ 密碼錯誤！無法刪除。');
-            }
-        };
-
-        window.exportNotesJSON = function() {
-            const blob = new Blob([JSON.stringify(allCloudNotes, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `backup_notes_${Date.now()}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
         };
 
         function escapeHTML(str) {
@@ -808,14 +930,14 @@
 
     <!-- 本地檔案庫與 UI 控制 JavaScript -->
     <script>
-        const CODE_STORAGE_KEY = 'cpp_oop_code_files_full_v3';
+        const CODE_STORAGE_KEY = 'cpp_oop_code_files_full_v4';
 
         const defaultCodeFiles = [
             {
                 id: 'book-hpp',
                 title: 'Book.hpp',
                 path: 'include/Book.hpp',
-                code: `#ifndef BOOK_HPP          // 標頭檔衛兵：防止標頭檔被重複 include 導致重覆定義\n#define BOOK_HPP\n\n#include <string>         // 引入 C++ 標準庫字串型態\n\nenum class BookCategory : int {\n    GENERAL = 0, PHILOSOPHY = 100, RELIGION = 200, SCIENCE = 300,\n    APPLIED_SCIENCE = 400, SOCIAL_SCIENCE = 500, HISTORY_GEOGRAPHY_CHINA = 600,\n    HISTORY_GEOGRAPHY_WORLD = 700, LANGUAGE_LITERATURE = 800, ARTS = 900\n};\n\nclass Book {\npublic:\n    Book(std::string bookName, int bookID);\n    Book(std::string bookName, int bookID, std::string bookAuthor, BookCategory category);\n\n    [[nodiscard]] std::string getName() const;\n    [[nodiscard]] int getID() const;\n    [[nodiscard]] std::string getAuthor() const;\n    [[nodiscard]] BookCategory getCategory() const;\n\nprivate:\n    std::string name;       // 私有變數：書名\n    int id;                 // 私有變數：ID\n    std::string author;     // 私有變數：作者\n    BookCategory category;  // 私有變數：分類\n};\n\n#endif`
+                code: `#ifndef BOOK_HPP          // 標頭檔衛兵：防止重複 include\n#define BOOK_HPP\n\n#include <string>         // 引入 C++ 標準庫字串型態\n\nenum class BookCategory : int {\n    GENERAL = 0, PHILOSOPHY = 100, RELIGION = 200, SCIENCE = 300,\n    APPLIED_SCIENCE = 400, SOCIAL_SCIENCE = 500, HISTORY_GEOGRAPHY_CHINA = 600,\n    HISTORY_GEOGRAPHY_WORLD = 700, LANGUAGE_LITERATURE = 800, ARTS = 900\n};\n\nclass Book {\npublic:\n    Book(std::string bookName, int bookID);\n    Book(std::string bookName, int bookID, std::string bookAuthor, BookCategory category);\n\n    [[nodiscard]] std::string getName() const;\n    [[nodiscard]] int getID() const;\n    [[nodiscard]] std::string getAuthor() const;\n    [[nodiscard]] BookCategory getCategory() const;\n\nprivate:\n    std::string name;       // 私有變數：書名\n    int id;                 // 私有變數：ID\n    std::string author;     // 私有變數：作者\n    BookCategory category;  // 私有變數：分類\n};\n\n#endif`
             },
             {
                 id: 'book-cpp',
