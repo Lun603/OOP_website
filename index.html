@@ -17,7 +17,7 @@
             --border-color: #e2e8f0;
             --accent-green: #10b981;
             --accent-purple: #8b5cf6;
-            --accent-amber: #f59e0b;
+            --accent-red: #ef4444;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -157,6 +157,19 @@
         }
         .copy-btn:hover { background: #475569; }
 
+        .delete-code-btn {
+            background: var(--accent-red);
+            color: #ffffff;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-left: 8px;
+            transition: background 0.2s;
+        }
+        .delete-code-btn:hover { background: #dc2626; }
+
         pre[class*="language-"] {
             margin: 0 !important;
             border-top-left-radius: 0 !important;
@@ -273,7 +286,7 @@
             font-size: 0.9rem;
         }
 
-        /* 備忘錄優化版 UI */
+        /* 備忘錄 UI */
         .note-filter-bar {
             display: flex;
             gap: 8px;
@@ -417,7 +430,7 @@
         <ul>
             <li><a href="#overview">1. 專案系統架構</a></li>
             <li><a href="#git-section">2. Git & CMD 實用指令寶典</a></li>
-            <li><a href="#code-section">3. 程式碼檔案庫 (可動態擴充)</a></li>
+            <li><a href="#code-section">3. 程式碼檔案庫 (可新增刪除)</a></li>
             <li><a href="#deep-details">4. 高階 OOP 與記憶體解析</a></li>
             <li><a href="#oop-concepts">5. C vs C++ OOP 對照表</a></li>
             <li><a href="#interactive-qa">6. 互動式 QA 知識庫</a></li>
@@ -442,7 +455,7 @@
             </ul>
         </section>
 
-        <!-- Section 2: Git & CMD Section (Expanded) -->
+        <!-- Section 2: Git & CMD Section -->
         <section id="git-section">
             <h2>🌿 2. Git (MINGW64) & Terminal 實用指令寶典</h2>
             
@@ -495,14 +508,6 @@
                     <span class="cmd-code">git branch / git switch -c &lt;分支名&gt;</span>
                     <p><strong>分支管理</strong>：<code>git branch</code> 查看所有分支；<code>git switch -c new-feature</code> 建立並切換至新開發分支。</p>
                 </div>
-                <div class="cmd-card">
-                    <span class="cmd-code">git stash / git stash pop</span>
-                    <p><strong>暫存工作進度</strong>：把尚未完工的程式碼暫時隱藏封存起來，切換分支處理突發 Bug 後再用 <code>pop</code> 還原。</p>
-                </div>
-                <div class="cmd-card">
-                    <span class="cmd-code">git remote add origin &lt;URL&gt; / git push</span>
-                    <p><strong>遠端同步 (GitHub)</strong>：將本地端的儲存區連結至 GitHub 遠端庫，並執行 <code>git push -u origin main</code> 推送上傳。</p>
-                </div>
             </div>
 
             <h3 style="margin-top: 25px;">CMD / MINGW64 基礎終端機指令：</h3>
@@ -520,23 +525,19 @@
                     <p><strong>建立新資料夾</strong>：在當前目錄下新增一個指定名稱的新資料夾。</p>
                 </div>
                 <div class="cmd-card">
-                    <span class="cmd-code">notepad &lt;檔案.txt&gt;</span>
-                    <p><strong>記事本開啟檔案</strong>：使用 Windows 預設記事本文字編輯器直接打開指定文字檔。</p>
-                </div>
-                <div class="cmd-card">
                     <span class="cmd-code">clear / cls</span>
                     <p><strong>清空終端機畫面</strong>：<code>clear</code> (Git Bash) 或 <code>cls</code> (Windows CMD) 清理當前視窗雜亂的輸出。</p>
                 </div>
             </div>
         </section>
 
-        <!-- Section 3: Flexible Dynamic Code Repository -->
+        <!-- Section 3: Dynamic Code Repository -->
         <section id="code-section">
             <div class="code-actions">
-                <h2>💻 3. 程式碼檔案庫 (具備未來擴充彈性)</h2>
+                <h2>💻 3. 程式碼檔案庫 (支援新增與刪除)</h2>
                 <button class="btn btn-green" onclick="openAddCodeModal()">➕ 新增 / 匯入程式碼檔案</button>
             </div>
-            <p style="color: var(--text-muted); margin-bottom: 14px;">點擊頁籤切換檢視專案程式碼。未來如果有新的 `.hpp` / `.cpp` 檔案，可以直接點擊右上方按鈕動態匯入！</p>
+            <p style="color: var(--text-muted); margin-bottom: 14px;">點擊頁籤檢視程式碼[cite: 1]。程式碼均已加上詳細逐行中文註解[cite: 1]，且支援複製與刪除檔頁！</p>
 
             <div class="tab-menu" id="codeTabMenu"></div>
             <div id="codeDisplayArea"></div>
@@ -550,7 +551,7 @@
                 <h4>1. Stack vs Heap 記憶體配置 (物件生命週期)</h4>
                 <ul>
                     <li><code>Book b("C++", 101);</code>：配置於 <b>Stack (堆疊)</b>。離開大括號範疇時自動呼叫解構子銷毀，速度極快且絕不洩漏。</li>
-                    <li><code>Book* b = new Book("C++", 101);</code>：配置於 <b>Heap (堆積)</b>。必須手動 <code>delete b;</code> 釋放，若忘記會造成 Memory Leak。現代 C++ 鼓勵採用 RAII 機制（如 <code>std::vector</code> 或 <code>std::unique_ptr</code>）自動管理 Heap。</li>
+                    <li><code>Book* b = new Book("C++", 101);</code>：配置於 <b>Heap (堆積)</b>。必須手動 <code>delete b;</code> 釋放，若忘記會造成 Memory Leak。現代 C++ 鼓勵採用 RAII 機制自動管理 Heap。</li>
                 </ul>
             </div>
 
@@ -637,7 +638,6 @@
             <h2>📝 7. 個人優化版備忘錄</h2>
             <p style="margin-bottom: 16px; color: var(--text-muted);">新增學習心得或觀念筆記，資料會<b>自動保存在瀏覽器本地端 (LocalStorage)</b>：</p>
 
-            <!-- Tag Filter Bar -->
             <div class="note-filter-bar">
                 <button class="filter-btn active" onclick="filterNotes('all', this)">全部筆記</button>
                 <button class="filter-btn" onclick="filterNotes('oop', this)">C++ / OOP</button>
@@ -646,7 +646,6 @@
                 <button class="filter-btn" onclick="filterNotes('todo', this)">待辦備忘</button>
             </div>
 
-            <!-- New Note Form -->
             <form onsubmit="addNote(event)" style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 24px;">
                 <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 12px;">
                     <div class="form-group">
@@ -703,33 +702,45 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
 
     <script>
-        /* --- 動態程式碼檔案庫系統 --- */
-        const CODE_STORAGE_KEY = 'cpp_oop_code_files_v1';
+        /* --- 動態程式碼檔案庫系統 (全檔案完整註解) --- */
+        const CODE_STORAGE_KEY = 'cpp_oop_code_files_v2';
 
         const defaultCodeFiles = [
             {
                 id: 'book-hpp',
                 title: 'Book.hpp',
                 path: 'include/Book.hpp',
-                code: `#ifndef BOOK_HPP\n#define BOOK_HPP\n\n#include <string>\n\nenum class BookCategory : int {\n    GENERAL = 0, PHILOSOPHY = 100, RELIGION = 200, SCIENCE = 300,\n    APPLIED_SCIENCE = 400, SOCIAL_SCIENCE = 500, HISTORY_GEOGRAPHY_CHINA = 600,\n    HISTORY_GEOGRAPHY_WORLD = 700, LANGUAGE_LITERATURE = 800, ARTS = 900\n};\n\nclass Book {\npublic:\n    Book(std::string bookName, int bookID);\n    Book(std::string bookName, int bookID, std::string bookAuthor, BookCategory category);\n\n    [[nodiscard]] std::string getName() const;\n    [[nodiscard]] int getID() const;\n    [[nodiscard]] std::string getAuthor() const;\n    [[nodiscard]] BookCategory getCategory() const;\n\nprivate:\n    std::string name;\n    int id;\n    std::string author;\n    BookCategory category;\n};\n\n#endif`
+                code: `#ifndef BOOK_HPP          // 標頭檔衛兵：防止這個標頭檔被重複 #include 導致重複定義錯誤\n#define BOOK_HPP\n\n#include <string>         // 引入 C++ 標準庫的字串型態 std::string\n\n// 定義強型態列舉（enum class），並指定底層資料型態為 int\nenum class BookCategory : int {\n    GENERAL = 0,                  // 總類（數值 0）\n    PHILOSOPHY = 100,             // 哲學類\n    RELIGION = 200,               // 宗教類\n    SCIENCE = 300,                // 自然科學類\n    APPLIED_SCIENCE = 400,        // 應用科學類\n    SOCIAL_SCIENCE = 500,         // 社會科學類\n    HISTORY_GEOGRAPHY_CHINA = 600, // 中國史地類\n    HISTORY_GEOGRAPHY_WORLD = 700, // 世界史地類\n    LANGUAGE_LITERATURE = 800,    // 語言文學類\n    ARTS = 900                    // 藝術類\n};\n\n// 宣告 Book 類別（書籍藍圖）\nclass Book {\npublic:\n    // 建構子 1 宣告：當使用者只傳入書名與 ID 時呼叫\n    Book(std::string bookName, int bookID);\n\n    // 建構子 2 宣告：當使用者傳入完整的書名、ID、作者與類別時呼叫\n    Book(std::string bookName, int bookID, std::string bookAuthor, BookCategory category);\n\n    // 取得書名的 Getter 函式；const 表示不修改變數；[[nodiscard]] 警告忽略回傳值\n    [[nodiscard]] std::string getName() const;\n\n    // 取得書籍 ID 的 Getter 函式\n    [[nodiscard]] int getID() const;\n\n    // 取得作者名稱的 Getter 函式\n    [[nodiscard]] std::string getAuthor() const;\n\n    // 取得書籍分類的 Getter 函式\n    [[nodiscard]] BookCategory getCategory() const;\n\nprivate:\n    std::string name;       // 私有成員變數：儲存書名\n    int id;                 // 私有成員變數：儲存書籍 ID\n    std::string author;     // 私有成員變數：儲存作者名稱\n    BookCategory category;  // 私有成員變數：儲存書籍分類\n};\n\n#endif                    // 結束標頭檔衛兵`
             },
             {
                 id: 'book-cpp',
                 title: 'Book.cpp',
                 path: 'src/Book.cpp',
-                code: `#include "Book.hpp"\n\nBook::Book(std::string bookName, int bookID)\n    : name(bookName), id(bookID), author("Unknown"), category(BookCategory::GENERAL) {}\n\nBook::Book(std::string bookName, int bookID, std::string bookAuthor, BookCategory category)\n    : name(bookName), id(bookID), author(bookAuthor), category(category) {}\n\nstd::string Book::getName() const { return name; }\nint Book::getID() const { return id; }\nstd::string Book::getAuthor() const { return author; }\nBookCategory Book::getCategory() const { return category; }`
+                code: `#include "Book.hpp" // 引入 Book 類別宣告\n\n// 建構子 1 實作：利用初始化列表 (: name(bookName)...) 設定變數初值\n// 沒傳入的 author 預設為 "Unknown"，category 預設為 BookCategory::GENERAL\nBook::Book(std::string bookName, int bookID)\n    : name(bookName), id(bookID), author("Unknown"), category(BookCategory::GENERAL) {}\n\n// 建構子 2 實作：完整接收 4 個參數並分別指派給私有成員變數\nBook::Book(std::string bookName, int bookID, std::string bookAuthor, BookCategory category)\n    : name(bookName), id(bookID), author(bookAuthor), category(category) {}\n\n// 回傳私有成員變數 name 的內容\nstd::string Book::getName() const { return name; }\n\n// 回傳私有成員變數 id 的內容\nint Book::getID() const { return id; }\n\n// 回傳私有成員變數 author 的內容\nstd::string Book::getAuthor() const { return author; }\n\n// 回傳私有成員變數 category 的內容\nBookCategory Book::getCategory() const { return category; }`
             },
             {
                 id: 'bookshelf-hpp',
                 title: 'BookShelf.hpp',
                 path: 'include/BookShelf.hpp',
-                code: `#ifndef BOOK_SHELF_HPP\n#define BOOK_SHELF_HPP\n\n#include "Book.hpp"\n#include <vector>\n\nclass BookShelf {\npublic:\n    BookShelf(BookCategory category);\n    BookShelf(BookCategory category, int bookCapacity);\n\n    void setIDRange(int minID, int maxID);\n    void addBook(Book book);\n    void remove(int bookID);\n\n    [[nodiscard]] Book searchByBookID(int bookID);\n    [[nodiscard]] Book searchByBookName(std::string bookName);\n    [[nodiscard]] std::vector<Book> getBooks() const;\n    [[nodiscard]] BookCategory getCategory() const;\n    [[nodiscard]] int getCapacity() const;\n\nprivate:\n    int bookCapacity;\n    int minID = 0;\n    int maxID = 999;\n    std::vector<Book> books;\n    BookCategory category;\n};\n\n#endif`
+                code: `#ifndef BOOK_SHELF_HPP          // 標頭檔衛兵：防止 BOOK_SHELF_HPP 重複引入\n#define BOOK_SHELF_HPP\n\n#include "Book.hpp"             // 引入 Book 類別，因為書櫃需要存放 Book 物件\n#include <vector>               // 引入動態陣列容器 std::vector\n\n// 宣告 BookShelf 類別（書櫃藍圖）\nclass BookShelf {\npublic:\n    // 建構子 1：只給分類，容量預設為 1000 本\n    BookShelf(BookCategory category);\n\n    // 建構子 2：傳入分類與自訂容量上限\n    BookShelf(BookCategory category, int bookCapacity);\n\n    // 設定書籍 ID 容許範圍\n    void setIDRange(int minID, int maxID);\n\n    // 新增書籍到書櫃中\n    void addBook(Book book);\n\n    // 依 ID 刪除書籍\n    void remove(int bookID);\n\n    // 依 ID 搜尋書籍；[[nodiscard]] 警告呼叫者不可忽略回傳值\n    [[nodiscard]] Book searchByBookID(int bookID);\n\n    // 依書名搜尋書籍\n    [[nodiscard]] Book searchByBookName(std::string bookName);\n\n    // 取得目前所有書籍列表\n    [[nodiscard]] std::vector<Book> getBooks() const;\n\n    // 取得書櫃分類\n    [[nodiscard]] BookCategory getCategory() const;\n\n    // 取得書櫃容量上限\n    [[nodiscard]] int getCapacity() const;\n\nprivate:\n    int bookCapacity;           // 私有變數：書櫃容納書籍數量上限\n    int minID = 0;              // 私有變數：允許存放書籍最小 ID (預設 0)\n    int maxID = 999;            // 私有變數：允許存放書籍最大 ID (預設 999)\n    std::vector<Book> books;    // 私有變數：用來存放 Book 物件的動態陣列\n    BookCategory category;      // 私有變數：這個書櫃專屬的書籍分類\n};\n\n#endif                          // 結束標頭檔衛兵`
             },
             {
                 id: 'bookshelf-cpp',
                 title: 'BookShelf.cpp',
                 path: 'src/BookShelf.cpp',
-                code: `#include "BookShelf.hpp"\n#include <stdexcept>\n#include <algorithm>\n\nBookShelf::BookShelf(BookCategory category)\n    : category(category), bookCapacity(1000), minID(0), maxID(999) {}\n\nBookShelf::BookShelf(BookCategory category, int bookCapacity)\n    : category(category), bookCapacity(bookCapacity), minID(0), maxID(999) {}\n\nvoid BookShelf::setIDRange(int minID, int maxID) {\n    if (minID > maxID) throw std::invalid_argument("minID cannot exceed maxID");\n    if ((maxID - minID + 1) > bookCapacity) throw std::invalid_argument("ID range exceeds book capacity");\n    this->minID = minID;\n    this->maxID = maxID;\n}\n\nvoid BookShelf::addBook(Book book) {\n    if (static_cast<int>(books.size()) >= bookCapacity) throw std::overflow_error("BookShelf capacity full");\n    if (book.getCategory() != category) throw std::invalid_argument("Book category mismatch");\n    if (book.getID() < minID || book.getID() > maxID) throw std::invalid_argument("Book ID out of allowed range");\n    for (const auto& b : books) {\n        if (b.getID() == book.getID()) throw std::invalid_argument("Duplicate book ID");\n    }\n\n    books.push_back(book);\n\n    std::sort(books.begin(), books.end(), [](const Book& a, const Book& b) {\n        return a.getID() < b.getID();\n    });\n}\n\nvoid BookShelf::remove(int bookID) {\n    auto it = std::find_if(books.begin(), books.end(), [bookID](const Book& b) {\n        return b.getID() == bookID;\n    });\n    if (it == books.end()) throw std::invalid_argument("Book ID not found");\n    books.erase(it);\n}\n\nBook BookShelf::searchByBookID(int bookID) {\n    for (const auto& b : books) if (b.getID() == bookID) return b;\n    throw std::invalid_argument("Book ID not found");\n}\n\nBook BookShelf::searchByBookName(std::string bookName) {\n    for (const auto& b : books) if (b.getName() == bookName) return b;\n    throw std::invalid_argument("Book name not found");\n}\n\nstd::vector<Book> BookShelf::getBooks() const { return books; }\nBookCategory BookShelf::getCategory() const { return category; }\nint BookShelf::getCapacity() const { return bookCapacity; }`
+                code: `#include "BookShelf.hpp" // 引入 BookShelf 宣告\n#include <stdexcept>     // 引入標準例外類別 (如 invalid_argument, overflow_error)\n#include <algorithm>     // 引入標準演算法 (如 std::sort, std::find_if)\n\n// 建構子 1：預設容量 1000，ID 範圍 0~999\nBookShelf::BookShelf(BookCategory category)\n    : category(category), bookCapacity(1000), minID(0), maxID(999) {}\n\n// 建構子 2：自訂容量上限，ID 範圍 0~999\nBookShelf::BookShelf(BookCategory category, int bookCapacity)\n    : category(category), bookCapacity(bookCapacity), minID(0), maxID(999) {}\n\n// 設定 ID 容許範圍\nvoid BookShelf::setIDRange(int minID, int maxID) {\n    if (minID > maxID) {\n        throw std::invalid_argument("minID cannot exceed maxID");\n    }\n    if ((maxID - minID + 1) > bookCapacity) {\n        throw std::invalid_argument("ID range exceeds book capacity");\n    }\n    this->minID = minID;\n    this->maxID = maxID;\n}\n\n// 新增書籍到書櫃\nvoid BookShelf::addBook(Book book) {\n    if (static_cast<int>(books.size()) >= bookCapacity) {\n        throw std::overflow_error("BookShelf capacity full");\n    }\n    if (book.getCategory() != category) {\n        throw std::invalid_argument("Book category mismatch");\n    }\n    if (book.getID() < minID || book.getID() > maxID) {\n        throw std::invalid_argument("Book ID out of allowed range");\n    }\n    for (const auto& b : books) {\n        if (b.getID() == book.getID()) {\n            throw std::invalid_argument("Duplicate book ID");\n        }\n    }\n\n    books.push_back(book);\n\n    // 升冪排序 Lambda：a.getID() < b.getID() 為 true 時 a 排前面\n    std::sort(books.begin(), books.end(), [](const Book& a, const Book& b) {\n        return a.getID() < b.getID();\n    });\n}\n\n// 依 ID 刪除書籍\nvoid BookShelf::remove(int bookID) {\n    auto it = std::find_if(books.begin(), books.end(), [bookID](const Book& b) {\n        return b.getID() == bookID;\n    });\n    if (it == books.end()) {\n        throw std::invalid_argument("Book ID not found");\n    }\n    books.erase(it);\n}\n\n// 依 ID 搜尋書籍\nBook BookShelf::searchByBookID(int bookID) {\n    for (const auto& b : books) {\n        if (b.getID() == bookID) return b;\n    }\n    throw std::invalid_argument("Book ID not found");\n}\n\n// 依書名搜尋書籍\nBook BookShelf::searchByBookName(std::string bookName) {\n    for (const auto& b : books) {\n        if (b.getName() == bookName) return b;\n    }\n    throw std::invalid_argument("Book name not found");\n}\n\nstd::vector<Book> BookShelf::getBooks() const { return books; }\nBookCategory BookShelf::getCategory() const { return category; }\nint BookShelf::getCapacity() const { return bookCapacity; }`
+            },
+            {
+                id: 'booksection-hpp',
+                title: 'BookSection.hpp',
+                path: 'include/BookSection.hpp',
+                code: `#ifndef BOOK_SECTION_HPP // 標頭檔衛兵\n#define BOOK_SECTION_HPP\n\n#include <vector>        // 引入動態陣列容器\n#include "BookShelf.hpp" // 引入 BookShelf 介面\n\n// 宣告 BookSection 類別（圖書分區）\nclass BookSection {\npublic:\n    // 建構子：設定該分區書櫃容量上限\n    BookSection(int bookShelfCapacity);\n\n    // 新增書櫃\n    void addShelf(BookShelf shelf);\n\n    // 依類別搜尋書櫃 (回傳包含所有符合條件書櫃的 vector)\n    [[nodiscard]] std::vector<BookShelf> searchByCategory(BookCategory category);\n\n    // 取得所有書櫃\n    [[nodiscard]] std::vector<BookShelf> getShelves() const;\n\n    // 取得分區容量上限\n    [[nodiscard]] int getCapacity() const;\n\nprivate:\n    int bookShelfCapacity;         // 私有變數：書櫃容量上限\n    std::vector<BookShelf> shelfs; // 私有變數：存放 BookShelf 物件的動態陣列\n};\n\n#endif`
+            },
+            {
+                id: 'booksection-cpp',
+                title: 'BookSection.cpp',
+                path: 'src/BookSection.cpp',
+                code: `#include "BookSection.hpp" // 引入對應宣告\n#include <stdexcept>       // 引入例外處理標頭檔\n\nBookSection::BookSection(int bookShelfCapacity)\n    : bookShelfCapacity(bookShelfCapacity) {}\n\nvoid BookSection::addShelf(BookShelf shelf) {\n    if (static_cast<int>(shelfs.size()) >= bookShelfCapacity) {\n        throw std::invalid_argument("BookSection capacity reached");\n    }\n    shelfs.push_back(shelf);\n}\n\nstd::vector<BookShelf> BookSection::searchByCategory(BookCategory category) {\n    std::vector<BookShelf> result;\n    for (const auto& shelf : shelfs) {\n        if (shelf.getCategory() == category) {\n            result.push_back(shelf);\n        }\n    }\n    if (result.empty()) {\n        throw std::invalid_argument("No shelf found for this category");\n    }\n    return result;\n}\n\nstd::vector<BookShelf> BookSection::getShelves() const { return shelfs; }\nint BookSection::getCapacity() const { return bookShelfCapacity; }`
             }
         ];
 
@@ -746,14 +757,14 @@
             displayArea.innerHTML = '';
 
             files.forEach((file, index) => {
-                // Render Tab Button
+                // 標籤按鈕
                 const btn = document.createElement('button');
                 btn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
                 btn.innerText = file.title;
                 btn.onclick = () => switchCodeTab(file.id, btn);
                 tabMenu.appendChild(btn);
 
-                // Render Code Content Container
+                // 程式碼顯示容器 (含複製與刪除按鈕)
                 const container = document.createElement('div');
                 container.id = `code-file-${file.id}`;
                 container.className = 'code-container';
@@ -762,7 +773,10 @@
                 container.innerHTML = `
                     <div class="code-header">
                         <span>${escapeHTML(file.path)}</span>
-                        <button class="copy-btn" onclick="copyCode(this)">複製程式碼</button>
+                        <div>
+                            <button class="copy-btn" onclick="copyCode(this)">複製程式碼</button>
+                            <button class="delete-code-btn" onclick="deleteCodeFile('${file.id}')">🗑️ 刪除檔案</button>
+                        </div>
                     </div>
                     <pre><code class="language-cpp">${escapeHTML(file.code)}</code></pre>
                 `;
@@ -777,6 +791,21 @@
             document.querySelectorAll('#codeTabMenu .tab-btn').forEach(el => el.classList.remove('active'));
             document.getElementById(`code-file-${id}`).style.display = 'block';
             btn.classList.add('active');
+        }
+
+        function deleteCodeFile(fileId) {
+            if (!confirm('確定要刪除這個程式碼檔案嗎？')) return;
+            const saved = localStorage.getItem(CODE_STORAGE_KEY);
+            let files = saved ? JSON.parse(saved) : defaultCodeFiles;
+
+            if (files.length <= 1) {
+                alert('最少需要保留一個程式碼檔案！');
+                return;
+            }
+
+            files = files.filter(f => f.id !== fileId);
+            localStorage.setItem(CODE_STORAGE_KEY, JSON.stringify(files));
+            renderCodeTabs(files);
         }
 
         function openAddCodeModal() { document.getElementById('addCodeModal').style.display = 'flex'; }
